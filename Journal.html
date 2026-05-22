@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15-Minute Reset & Reflect</title>
+    <style>
+        /* Soft, calming, feminine aesthetic */
+        :root {
+            --primary: #cbaacb; 
+            --bg: #fdfbf7; 
+            --text: #5a5a5a;
+            --accent: #ab90ab;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Georgia', serif;
+            transition: background-color 1s ease;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin-top: 5vh;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--accent);
+            font-weight: normal;
+            margin-bottom: 5px;
+        }
+
+        .timer-display {
+            font-size: 4rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--primary);
+            margin: 20px 0;
+            font-weight: 300;
+        }
+
+        .phase-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            margin-bottom: 25px;
+            border-top: 4px solid var(--primary);
+            min-height: 120px;
+            transition: all 0.5s ease;
+        }
+
+        .phase-title {
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-top: 0;
+        }
+
+        .phase-instruction {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #777;
+        }
+
+        textarea {
+            width: 100%;
+            height: 250px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            font-family: 'Georgia', serif;
+            font-size: 1.1rem;
+            color: var(--text);
+            resize: vertical;
+            box-sizing: border-box;
+            transition: box-shadow 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(203, 170, 203, 0.2);
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            padding-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background-color: white;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        button:hover {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .primary-btn {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .primary-btn:hover {
+            background-color: var(--accent);
+        }
+        
+        .audio-btn {
+            background-color: #f0f0f0;
+            border-color: #d0d0d0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Breathe & Reflect</h1>
+        
+        <div class="timer-display" id="timer">15:00</div>
+
+        <div class="phase-card" id="phaseCard">
+            <h2 class="phase-title" id="phaseTitle">Ready when you are.</h2>
+            <p class="phase-instruction" id="phaseDesc">Find a quiet space, get comfortable, and click Start to begin your 15-minute reset.</p>
+        </div>
+
+        <textarea id="journalEntry" placeholder="Your journal space. It is safe to be completely honest here..."></textarea>
+
+        <div class="controls">
+            <button class="primary-btn" id="startBtn" onclick="toggleTimer()">Start Workflow</button>
+            <button class="audio-btn" id="audioBtn" onclick="toggleAudioSettings()">Voice & Sound: ON 🔊</button>
+            <button onclick="downloadJournal()">Save Journal Entry</button>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 900; 
+        let timerInterval;
+        let isRunning = false;
+        let audioEnabled = true;
+
+        // Custom User Voice Recordings
+        const voiceMeditation = new Audio('meditation.m4a');
+        const voiceDump = new Audio('dump.m4a');
+        const voiceIntention = new Audio('intention.mp4a');
+        
+        // Custom Ambient Background Sound (Ocean & Birds)
+        const backgroundMusic = new Audio('background.mp3');
+        backgroundMusic.loop = true; // Automatically loops the track
+        backgroundMusic.volume = 0.1; // Set to 10% volume so it stays quietly in the background
+        
+        // Ensure the voice recordings play loud and clear at 100% volume
+        voiceMeditation.volume = 1.0;
+        voiceDump.volume = 1.0;
+        voiceIntention.volume = 1.0;
+
+        const timerDisplay = document.getElementById('timer');
+        const phaseTitle = document.getElementById('phaseTitle');
+        const phaseDesc = document.getElementById('phaseDesc');
+        const startBtn = document.getElementById('startBtn');
+        const phaseCard = document.getElementById('phaseCard');
+        const audioBtn = document.getElementById('audioBtn');
+
+        const phases = {
+            meditation: {
+                id: "meditation",
+                title: "Phase 1: Grounding Meditation",
+                desc: "Close your eyes. Drop your shoulders away from your ears. Inhale deeply for 4 seconds, hold for 4, exhale for 6. Let the noise of the day fade away. There is nowhere else you need to be right now.",
+                color: "#cbaacb"
+            },
+            dump: {
+                id: "dump",
+                title: "Phase 2: The Brain Dump",
+                desc: "Open your eyes. Write down whatever is crowding your mind. Do not censor yourself. Are you tired? Frustrated? Overwhelmed? Put it all in the text box below to get it out of your head.",
+                color: "#ffc8c8" 
+            },
+            intention: {
+                id: "intention",
+                title: "Phase 3: Intention Setting",
+                desc: "Take a deep breath. Shift your focus. Write down one thing you are proud of yourself for today, and set one gentle intention for how you want to feel for the rest of the day.",
+                color: "#b5ebd1" 
+            },
+            done: {
+                id: "done",
+                title: "You did it.",
+                desc: "Your 15 minutes are complete. Thank yourself for showing up. You can continue writing, or save your entry below.",
+                color: "#e0e0e0"
+            }
+        };
+
+        // --- Custom Voice Setup ---
+        function playCustomVoice(phaseId) {
+            if (!audioEnabled) return;
+            
+            // Stop any currently playing voice files
+            voiceMeditation.pause();
+            voiceMeditation.currentTime = 0;
+            voiceDump.pause();
+            voiceDump.currentTime = 0;
+            voiceIntention.pause();
+            voiceIntention.currentTime = 0;
+
+            // Play the appropriate file
+            if (phaseId === "meditation") {
+                voiceMeditation.play().catch(e => console.log("Audio file missing or blocked:", e));
+            } else if (phaseId === "dump") {
+                voiceDump.play().catch(e => console.log("Audio file missing or blocked:", e));
+            } else if (phaseId === "intention") {
+                voiceIntention.play().catch(e => console.log("Audio file missing or blocked:", e));
+            }
+        }
+
+        function toggleAudioSettings() {
+            audioEnabled = !audioEnabled;
+            if (audioEnabled) {
+                audioBtn.innerText = "Voice & Sound: ON 🔊";
+                if (isRunning) backgroundMusic.play().catch(e => console.log("Audio play blocked:", e));
+            } else {
+                audioBtn.innerText = "Voice & Sound: OFF 🔇";
+                voiceMeditation.pause();
+                voiceDump.pause();
+                voiceIntention.pause();
+                backgroundMusic.pause();
+            }
+        }
+
+        // --- Timer and Logic ---
+        function updateUI() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            timerDisplay.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+            if (timeLeft > 600) {
+                setPhase(phases.meditation);
+            } else if (timeLeft === 600) {
+                setPhase(phases.dump); 
+            } else if (timeLeft <= 600 && timeLeft > 300) {
+                setPhase(phases.dump);
+            } else if (timeLeft === 300) {
+                setPhase(phases.intention); 
+            } else if (timeLeft <= 300 && timeLeft > 0) {
+                setPhase(phases.intention);
+            } else if (timeLeft === 0) {
+                setPhase(phases.done);
+                clearInterval(timerInterval);
+                isRunning = false;
+                startBtn.innerText = "Workflow Complete";
+                startBtn.disabled = true;
+                backgroundMusic.pause();
+            }
+        }
+
+        function setPhase(phaseObj) {
+            if (phaseTitle.innerText !== phaseObj.title) {
+                phaseTitle.innerText = phaseObj.title;
+                phaseDesc.innerText = phaseObj.desc;
+                phaseCard.style.borderTopColor = phaseObj.color;
+                
+                // Trigger your custom voice recording
+                playCustomVoice(phaseObj.id);
+            }
+        }
+
+        function toggleTimer() {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                startBtn.innerText = "Resume Workflow";
+                backgroundMusic.pause();
+                
+                voiceMeditation.pause();
+                voiceDump.pause();
+                voiceIntention.pause();
+            } else {
+                if (timeLeft === 900) {
+                    setPhase(phases.meditation);
+                }
+                
+                if (audioEnabled) {
+                    backgroundMusic.play().catch(e => console.log("Audio play blocked:", e));
+                }
+                
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateUI();
+                }, 1000);
+                startBtn.innerText = "Pause";
+            }
+            isRunning = !isRunning;
+        }
+
+        function downloadJournal() {
+            const text = document.getElementById('journalEntry').value;
+            if (!text) {
+                alert("Your journal is empty!");
+                return;
+            }
+            const date = new Date().toLocaleDateString().replace(/\//g, '-');
+            const blob = new Blob([text], { type: 'text/plain' });
+            const anchor = document.createElement('a');
+            anchor.download = `Wellness-Journal-${date}.txt`;
+            anchor.href = window.URL.createObjectURL(blob);
+            anchor.click();
+        }
+    </script>
+</body>
+</html>
