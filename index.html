@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>15-Minute Reset & Reflect</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
         /* Contemporary Palette */
         :root {
             --glass-bg: rgba(255, 255, 255, 0.65); /* Slightly more opaque for readability */
@@ -26,7 +27,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Righteous', cursive;
             color: var(--text-dark);
             overflow-x: hidden;
             
@@ -199,12 +200,12 @@
         let audioEnabled = true;
 
         // Custom User Voice Recordings
-        const voiceMeditation = new Audio('meditation.mp3');
-        const voiceDump = new Audio('dump.mp3');
-        const voiceIntention = new Audio('intention.mp3');
+        const voiceMeditation = new Audio('Meditation.m4a');
+        const voiceDump = new Audio('Dump.m4a');
+        const voiceIntention = new Audio('Intention.m4a');
         
         // Custom Ambient Background Sound
-        const backgroundMusic = new Audio('background.mp3');
+        const backgroundMusic = new Audio('Background.mp3');
         backgroundMusic.loop = true; 
         backgroundMusic.volume = 0.1; 
         
