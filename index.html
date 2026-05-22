@@ -5,12 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>15-Minute Reset & Reflect</title>
     <style>
-        /* Soft, calming, feminine aesthetic */
+        /* Contemporary Palette */
         :root {
-            --primary: #cbaacb; 
-            --bg: #fdfbf7; 
-            --text: #5a5a5a;
-            --accent: #ab90ab;
+            --glass-bg: rgba(255, 255, 255, 0.65); /* Slightly more opaque for readability */
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --text-dark: #2c3e50;
+            --primary-blue: #3498db;
+            --primary-yellow: #f1c40f;
+            --accent: #2980b9;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
@@ -20,119 +26,148 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Georgia', serif;
-            transition: background-color 1s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            
+            /* THIS IS THE MAGIC TRICK */
+            /* The rgba(255,255,255, 0.7) adds a 70% white wash over your picture */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
 
+        /* --- Glassmorphism UI --- */
         .container {
-            max-width: 600px;
+            position: relative;
+            z-index: 10;
+            max-width: 650px;
             width: 90%;
-            margin-top: 5vh;
+            margin-top: 6vh;
+            margin-bottom: 6vh;
             text-align: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
         }
 
         h1 {
             font-size: 2.2rem;
             color: var(--accent);
-            font-weight: normal;
+            font-weight: 400;
+            margin-top: 0;
             margin-bottom: 5px;
+            letter-spacing: 1px;
         }
 
         .timer-display {
-            font-size: 4rem;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--primary);
-            margin: 20px 0;
+            font-size: 4.5rem;
+            color: var(--accent);
+            margin: 15px 0;
             font-weight: 300;
+            letter-spacing: 2px;
         }
 
         .phase-card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            background: rgba(255, 255, 255, 0.85);
+            padding: 20px;
+            border-radius: 16px;
             margin-bottom: 25px;
-            border-top: 4px solid var(--primary);
-            min-height: 120px;
+            border-left: 5px solid var(--primary-yellow);
+            min-height: 100px;
             transition: all 0.5s ease;
+            text-align: left;
         }
 
         .phase-title {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--accent);
             margin-top: 0;
+            font-weight: 600;
         }
 
         .phase-instruction {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             line-height: 1.6;
-            color: #777;
+            color: #4a5568;
+            margin-bottom: 0;
         }
 
         textarea {
             width: 100%;
-            height: 250px;
+            height: 200px;
             padding: 20px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            background: white;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.95);
             font-family: 'Georgia', serif;
             font-size: 1.1rem;
-            color: var(--text);
+            color: var(--text-dark);
             resize: vertical;
-            box-sizing: border-box;
-            transition: box-shadow 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
         }
 
         textarea:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(203, 170, 203, 0.2);
+            background: #ffffff;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
         }
 
         .controls {
-            margin-top: 20px;
+            margin-top: 25px;
             display: flex;
             gap: 15px;
             justify-content: center;
-            padding-bottom: 40px;
             flex-wrap: wrap;
         }
 
         button {
-            background-color: white;
+            background: rgba(255, 255, 255, 0.95);
             color: var(--accent);
-            border: 1px solid var(--accent);
+            border: 1px solid white;
             padding: 12px 25px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             border-radius: 30px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
         button:hover {
-            background-color: var(--primary);
-            color: white;
-            border-color: var(--primary);
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
         }
 
         .primary-btn {
-            background-color: var(--primary);
+            background: var(--primary-blue);
             color: white;
-            border-color: var(--primary);
+            border: none;
         }
 
         .primary-btn:hover {
-            background-color: var(--accent);
+            background: #2980b9;
+            color: white;
+        }
+
+        .audio-btn {
+            background: #f1c40f;
+            color: #fff;
+            border: none;
         }
         
-        .audio-btn {
-            background-color: #f0f0f0;
-            border-color: #d0d0d0;
-            color: #555;
+        .audio-btn:hover {
+            background: #f39c12;
         }
     </style>
 </head>
@@ -152,8 +187,8 @@
 
         <div class="controls">
             <button class="primary-btn" id="startBtn" onclick="toggleTimer()">Start Workflow</button>
-            <button class="audio-btn" id="audioBtn" onclick="toggleAudioSettings()">Voice & Sound: ON 🔊</button>
-            <button onclick="downloadJournal()">Save Journal Entry</button>
+            <button class="audio-btn" id="audioBtn" onclick="toggleAudioSettings()">Audio: ON 🔊</button>
+            <button onclick="downloadJournal()">Save Journal</button>
         </div>
     </div>
 
@@ -164,16 +199,15 @@
         let audioEnabled = true;
 
         // Custom User Voice Recordings
-        const voiceMeditation = new Audio('Meditation.m4a');
-        const voiceDump = new Audio('Dump.m4a');
-        const voiceIntention = new Audio('Intention.m4a');
+        const voiceMeditation = new Audio('meditation.mp3');
+        const voiceDump = new Audio('dump.mp3');
+        const voiceIntention = new Audio('intention.mp3');
         
-        // Custom Ambient Background Sound (Ocean & Birds)
+        // Custom Ambient Background Sound
         const backgroundMusic = new Audio('background.mp3');
-        backgroundMusic.loop = true; // Automatically loops the track
-        backgroundMusic.volume = 0.1; // Set to 10% volume so it stays quietly in the background
+        backgroundMusic.loop = true; 
+        backgroundMusic.volume = 0.1; 
         
-        // Ensure the voice recordings play loud and clear at 100% volume
         voiceMeditation.volume = 1.0;
         voiceDump.volume = 1.0;
         voiceIntention.volume = 1.0;
@@ -190,33 +224,31 @@
                 id: "meditation",
                 title: "Phase 1: Grounding Meditation",
                 desc: "Close your eyes. Drop your shoulders away from your ears. Inhale deeply for 4 seconds, hold for 4, exhale for 6. Let the noise of the day fade away. There is nowhere else you need to be right now.",
-                color: "#cbaacb"
+                color: "#3498db" 
             },
             dump: {
                 id: "dump",
                 title: "Phase 2: The Brain Dump",
                 desc: "Open your eyes. Write down whatever is crowding your mind. Do not censor yourself. Are you tired? Frustrated? Overwhelmed? Put it all in the text box below to get it out of your head.",
-                color: "#ffc8c8" 
+                color: "#f1c40f" 
             },
             intention: {
                 id: "intention",
                 title: "Phase 3: Intention Setting",
                 desc: "Take a deep breath. Shift your focus. Write down one thing you are proud of yourself for today, and set one gentle intention for how you want to feel for the rest of the day.",
-                color: "#b5ebd1" 
+                color: "#2ecc71" 
             },
             done: {
                 id: "done",
                 title: "You did it.",
                 desc: "Your 15 minutes are complete. Thank yourself for showing up. You can continue writing, or save your entry below.",
-                color: "#e0e0e0"
+                color: "#95a5a6" 
             }
         };
 
-        // --- Custom Voice Setup ---
         function playCustomVoice(phaseId) {
             if (!audioEnabled) return;
             
-            // Stop any currently playing voice files
             voiceMeditation.pause();
             voiceMeditation.currentTime = 0;
             voiceDump.pause();
@@ -224,7 +256,6 @@
             voiceIntention.pause();
             voiceIntention.currentTime = 0;
 
-            // Play the appropriate file
             if (phaseId === "meditation") {
                 voiceMeditation.play().catch(e => console.log("Audio file missing or blocked:", e));
             } else if (phaseId === "dump") {
@@ -237,10 +268,10 @@
         function toggleAudioSettings() {
             audioEnabled = !audioEnabled;
             if (audioEnabled) {
-                audioBtn.innerText = "Voice & Sound: ON 🔊";
+                audioBtn.innerText = "Audio: ON 🔊";
                 if (isRunning) backgroundMusic.play().catch(e => console.log("Audio play blocked:", e));
             } else {
-                audioBtn.innerText = "Voice & Sound: OFF 🔇";
+                audioBtn.innerText = "Audio: OFF 🔇";
                 voiceMeditation.pause();
                 voiceDump.pause();
                 voiceIntention.pause();
@@ -248,7 +279,6 @@
             }
         }
 
-        // --- Timer and Logic ---
         function updateUI() {
             let minutes = Math.floor(timeLeft / 60);
             let seconds = timeLeft % 60;
@@ -278,9 +308,8 @@
             if (phaseTitle.innerText !== phaseObj.title) {
                 phaseTitle.innerText = phaseObj.title;
                 phaseDesc.innerText = phaseObj.desc;
-                phaseCard.style.borderTopColor = phaseObj.color;
+                phaseCard.style.borderLeftColor = phaseObj.color;
                 
-                // Trigger your custom voice recording
                 playCustomVoice(phaseObj.id);
             }
         }
