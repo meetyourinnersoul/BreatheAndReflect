@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App Settings</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
-        
-        /* Contemporary Palette */
+        /* Contemporary Earthy Palette */
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.65); 
-            --glass-border: rgba(255, 255, 255, 0.8);
-            --text-dark: #2c3e50;
-            --primary-blue: #3498db;
-            --primary-yellow: #f1c40f;
-            --accent: #2980b9;
+            --glass-bg: rgba(250, 247, 243, 0.65); 
+            --glass-border: rgba(180, 160, 140, 0.5);
+            --text-dark: #3a3a3a;
+            --text-light: #6b6b6b;
+            --earth-brown: #8b7355;
+            --warm-taupe: #a89968;
+            --sage-earth: #8a9a7b;
+            --clay-red: #b8735d;
             --danger: #e74c3c;
+            --transition-smooth: all 0.3s ease;
         }
 
         * {
@@ -29,11 +33,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Righteous', cursive;
+            font-family: 'Quicksand', sans-serif;
             color: var(--text-dark);
             overflow-x: hidden;
             
-            background-image: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), url('6M.jpg');
+            background-image: linear-gradient(rgba(250, 247, 243, 0.8), rgba(250, 247, 243, 0.8)), url('6M.JPG');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -43,14 +47,14 @@
         /* --- Navigation Menu --- */
         .main-nav {
             width: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(250, 247, 243, 0.85);
+            backdrop-filter: blur(15px);
             display: flex;
             justify-content: center;
             gap: 20px;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(139, 115, 85, 0.15);
+            box-shadow: 0 4px 20px rgba(139, 115, 85, 0.08);
             flex-wrap: wrap;
             position: sticky;
             top: 0;
@@ -60,16 +64,19 @@
         .main-nav a {
             text-decoration: none;
             color: var(--text-dark);
-            font-size: 1rem;
-            padding: 8px 16px;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            letter-spacing: 0.5px;
+            font-size: 0.95rem;
+            padding: 8px 18px;
+            border-radius: 25px;
+            transition: var(--transition-smooth);
+            font-weight: 500;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .main-nav a:hover, .main-nav a.active {
-            background: var(--primary-blue);
             color: white;
+            background: var(--earth-brown);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(139, 115, 85, 0.25);
         }
 
         .header-bar {
@@ -82,15 +89,16 @@
         }
 
         .lang-select {
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 10px 16px;
+            border-radius: 25px;
+            border: 2px solid rgba(139, 115, 85, 0.25);
             background: rgba(255, 255, 255, 0.9);
-            color: var(--accent);
-            font-family: 'Righteous', cursive;
-            font-size: 0.95rem;
+            color: var(--earth-brown);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem;
             cursor: pointer;
             outline: none;
+            font-weight: 500;
         }
 
         /* --- Glassmorphism UI --- */
@@ -108,7 +116,7 @@
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             padding: 40px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            box-shadow: 0 8px 32px rgba(139, 115, 85, 0.1);
         }
 
         .settings-banner {
@@ -131,16 +139,15 @@
 
         h1 {
             font-size: 2.2rem;
-            color: var(--accent);
-            font-weight: 400;
+            color: var(--earth-brown);
+            font-weight: 700;
             margin-top: 0;
             margin-bottom: 5px;
-            letter-spacing: 1px;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .desc {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #555;
+            color: var(--text-light);
             font-size: 1.1rem;
             margin-bottom: 30px;
         }
@@ -152,7 +159,7 @@
             border-radius: 16px;
             margin-bottom: 20px;
             text-align: left;
-            border-left: 5px solid var(--primary-blue);
+            border-left: 5px solid var(--earth-brown);
             box-shadow: 0 2px 10px rgba(0,0,0,0.02);
             display: flex;
             flex-direction: column;
@@ -160,26 +167,28 @@
         }
 
         .settings-section.danger-zone { border-left-color: var(--danger); }
-        .settings-section.feedback-zone { border-left-color: var(--primary-yellow); }
+        .settings-section.feedback-zone { border-left-color: var(--warm-taupe); }
 
         .section-title {
             font-size: 1.3rem;
-            color: var(--accent);
+            color: var(--earth-brown);
             margin: 0 0 5px 0;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
         }
 
         .danger-title { color: var(--danger); }
-        .feedback-title { color: var(--primary-yellow); text-shadow: 0px 1px 1px rgba(0,0,0,0.1); }
+        .feedback-title { color: var(--warm-taupe); }
 
         .setting-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-size: 1.05rem;
             color: var(--text-dark);
             padding: 10px 0;
             border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-weight: 500;
         }
 
         .setting-row:last-child { border-bottom: none; }
@@ -215,7 +224,7 @@
             border-radius: 50%;
         }
 
-        input:checked + .slider { background-color: var(--primary-blue); }
+        input:checked + .slider { background-color: var(--sage-earth); }
         input:checked + .slider:before { transform: translateX(22px); }
 
         /* --- Form Styles --- */
@@ -223,5 +232,227 @@
             width: 100%;
             padding: 12px;
             margin-bottom: 12px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius:
+            border: 1px solid rgba(139, 115, 85, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'Quicksand', sans-serif;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        .feedback-box {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .feedback-input:focus, .feedback-box:focus {
+            outline: none;
+            border-color: var(--warm-taupe);
+            box-shadow: 0 0 8px rgba(168, 153, 104, 0.3);
+        }
+
+        .submit-btn {
+            background: var(--warm-taupe);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: var(--earth-brown);
+            transform: translateY(-2px);
+        }
+
+        /* --- Buttons --- */
+        .danger-btn {
+            background: transparent;
+            color: var(--danger);
+            border: 2px solid var(--danger);
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .danger-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .status-msg {
+            color: var(--sage-earth);
+            font-weight: bold;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <a href="index.html" id="navHome">Home</a>
+        <a href="NewLayout.html" id="navJournal">Journal Timer</a>
+        <a href="breathe.html" id="navBreathe">Breathe</a>
+        <a href="tracker.html" id="navTracker">Tracker</a>
+        <a href="archive.html" id="navArchive">Archive</a>
+        <a href="settings.html" id="navSettings" class="active">Settings</a>
+    </nav>
+
+    <div class="header-bar">
+        <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <img src="9M.JPG" alt="Settings Header" class="settings-banner">
+
+        <h1 id="ui-title">Preferences</h1>
+        <p class="desc" id="ui-desc">Customize your wellness experience.</p>
+
+        <div class="settings-section">
+            <h3 class="section-title" id="secGeneral">General Options</h3>
+            <div class="setting-row">
+                <span id="optAudio">Play background audio by default</span>
+                <label class="switch">
+                    <input type="checkbox" id="audioToggle" checked onchange="saveSettings()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <span id="optAnim">Enable smooth animations</span>
+                <label class="switch">
+                    <input type="checkbox" id="animToggle" checked onchange="saveSettings()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="settings-section feedback-zone">
+            <h3 class="section-title feedback-title" id="secFeedback">Send Feedback</h3>
+            <p style="font-size: 0.95rem; color: var(--text-light); margin-top: 0; margin-bottom: 10px;" id="feedDesc">
+                We'd love to hear your thoughts.
+            </p>
+            
+            <form action="https://formspree.io/f/xaqkbwgn" method="POST">
+                <input type="email" name="email" id="emailInput" placeholder="Your email (optional)" class="feedback-input">
+                <textarea name="message" id="msgInput" placeholder="Your message..." class="feedback-box" required></textarea>
+                <button type="submit" class="submit-btn" id="submitBtn">Submit</button>
+            </form>
+        </div>
+
+        <img src="8M.JPG" alt="Data Management Header" class="settings-banner-small">
+
+        <div class="settings-section danger-zone">
+            <h3 class="section-title danger-title" id="secData">Data Management</h3>
+            <p style="font-size: 0.95rem; color: var(--text-light); margin-top: 0;" id="dataDesc">
+                Your journal entries and tracker history are saved locally on this device.
+            </p>
+            <button class="danger-btn" id="wipeBtn" onclick="wipeAllData()">Erase All Local Data</button>
+        </div>
+
+        <div class="status-msg" id="statusMsg">Settings saved!</div>
+    </div>
+
+    <script>
+        // --- Translation Dictionary ---
+        const i18n = {
+            en: {
+                navHome: "Home", navJournal: "Journal Timer", navBreathe: "Breathe", navTracker: "Tracker", navArchive: "Archive", navSettings: "Settings",
+                title: "Preferences", desc: "Customize your wellness experience.",
+                secGeneral: "General Options", optAudio: "Play background audio by default", optAnim: "Enable smooth animations",
+                secFeedback: "Send Feedback", feedDesc: "We'd love to hear your thoughts.", 
+                emailPlace: "Your email (optional)", msgPlace: "Your message...", submitBtn: "Submit",
+                secData: "Data Management", dataDesc: "Your journal entries and tracker history are saved locally on this device.",
+                wipeBtn: "Erase All Local Data", savedMsg: "Settings saved!",
+                wipeConfirm: "Are you absolutely sure? This will delete all tracked data and cannot be undone."
+            },
+            hi: {
+                navHome: "मुख्य पृष्ठ", navJournal: "जर्नल टाइमर", navBreathe: "सांस लें", navTracker: "ट्रैकर", navArchive: "संग्रह", navSettings: "सेटिंग्स",
+                title: "प्राथमिकताएं", desc: "अपने कल्याण अनुभव को अनुकूलित करें।",
+                secGeneral: "सामान्य विकल्प", optAudio: "डिफ़ॉल्ट रूप से पृष्ठभूमि ऑडियो चलाएं", optAnim: "सुचारू एनिमेशन सक्षम करें",
+                secFeedback: "प्रतिक्रिया भेजें", feedDesc: "हम आपके विचार सुनना पसंद करेंगे।", 
+                emailPlace: "आपका ईमेल (वैकल्पिक)", msgPlace: "आपका संदेश...", submitBtn: "जमा करें",
+                secData: "डेटा प्रबंधन", dataDesc: "आपकी जर्नल प्रविष्टियां और ट्रैकर इतिहास इस डिवाइस पर स्थानीय रूप से सहेजे जाते हैं।",
+                wipeBtn: "सभी स्थानीय डेटा मिटाएं", savedMsg: "सेटिंग्स सहेजी गईं!",
+                wipeConfirm: "क्या आप बिल्कुल निश्चित हैं? यह सभी ट्रैक किए गए डेटा को हटा देगा और इसे पूर्ववत नहीं किया जा सकता है।"
+            },
+            ta: {
+                navHome: "முகப்பு", navJournal: "நேரங்காட்டி", navBreathe: "சுவாசி", navTracker: "கண்காணிப்பான்", navArchive: "காப்பகம்", navSettings: "அமைப்புகள்",
+                title: "விருப்பங்கள்", desc: "உங்கள் அனுபவத்தை தனிப்பயனாக்குங்கள்.",
+                secGeneral: "பொதுவான விருப்பங்கள்", optAudio: "பின்னணி ஆடியோவை இயக்கவும்", optAnim: "மென்மையான அனிமேஷன்களை இயக்கு",
+                secFeedback: "கருத்து அனுப்பு", feedDesc: "உங்கள் எண்ணங்களை அறிய விரும்புகிறோம்.", 
+                emailPlace: "உங்கள் மின்னஞ்சல் (விருப்பத்திற்குரியது)", msgPlace: "உங்கள் செய்தி...", submitBtn: "சமர்ப்பி",
+                secData: "தரவு மேலாண்மை", dataDesc: "உங்கள் உள்ளீடுகள் மற்றும் வரலாறு இந்த சாதனத்தில் சேமிக்கப்படுகின்றன.",
+                wipeBtn: "அனைத்து தரவையும் அழி", savedMsg: "அமைப்புகள் சேமிக்கப்பட்டன!",
+                wipeConfirm: "நீங்கள் உறுதியாக இருக்கிறீர்களா? இது அனைத்து தரவையும் நீக்கும்."
+            }
+        };
+
+        let currentLang = 'en';
+
+        function changeLanguage() {
+            currentLang = document.getElementById('langSelect').value;
+            const t = i18n[currentLang];
+
+            // Update Nav
+            document.getElementById('navHome').innerText = t.navHome;
+            document.getElementById('navJournal').innerText = t.navJournal;
+            document.getElementById('navBreathe').innerText = t.navBreathe;
+            document.getElementById('navTracker').innerText = t.navTracker;
+            document.getElementById('navArchive').innerText = t.navArchive;
+            document.getElementById('navSettings').innerText = t.navSettings;
+
+            // Update Page Content
+            document.getElementById('ui-title').innerText = t.title;
+            document.getElementById('ui-desc').innerText = t.desc;
+            document.getElementById('secGeneral').innerText = t.secGeneral;
+            document.getElementById('optAudio').innerText = t.optAudio;
+            document.getElementById('optAnim').innerText = t.optAnim;
+            
+            // Update Feedback Form
+            document.getElementById('secFeedback').innerText = t.secFeedback;
+            document.getElementById('feedDesc').innerText = t.feedDesc;
+            document.getElementById('emailInput').placeholder = t.emailPlace;
+            document.getElementById('msgInput').placeholder = t.msgPlace;
+            document.getElementById('submitBtn').innerText = t.submitBtn;
+
+            document.getElementById('secData').innerText = t.secData;
+            document.getElementById('dataDesc').innerText = t.dataDesc;
+            document.getElementById('wipeBtn').innerText = t.wipeBtn;
+            document.getElementById('statusMsg').innerText = t.savedMsg;
+        }
+
+        function saveSettings() {
+            const statusMsg = document.getElementById('statusMsg');
+            statusMsg.style.opacity = '1';
+            setTimeout(() => { statusMsg.style.opacity = '0'; }, 2000);
+        }
+
+        function wipeAllData() {
+            const t = i18n[currentLang];
+            if (confirm(t.wipeConfirm)) {
+                localStorage.removeItem('wellness_tracker_data');
+                alert("Data erased successfully.");
+            }
+        }
+
+        changeLanguage();
+    </script>
+</body>
+</html>
