@@ -33,8 +33,7 @@
             color: var(--text-dark);
             overflow-x: hidden;
             
-            /* IMAGE 1: Bright sun through clouds as the main background */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), url('6M.JPG');
+            background-image: linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.65)), url('6M.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -112,7 +111,6 @@
             box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
         }
 
-        /* IMAGE 2 & 3: Banners inside the settings card */
         .settings-banner {
             width: 100%;
             height: 120px;
@@ -161,9 +159,8 @@
             gap: 15px;
         }
 
-        .settings-section.danger-zone {
-            border-left-color: var(--danger);
-        }
+        .settings-section.danger-zone { border-left-color: var(--danger); }
+        .settings-section.feedback-zone { border-left-color: var(--primary-yellow); }
 
         .section-title {
             font-size: 1.3rem;
@@ -171,9 +168,8 @@
             margin: 0 0 5px 0;
         }
 
-        .danger-title {
-            color: var(--danger);
-        }
+        .danger-title { color: var(--danger); }
+        .feedback-title { color: var(--primary-yellow); text-shadow: 0px 1px 1px rgba(0,0,0,0.1); }
 
         .setting-row {
             display: flex;
@@ -186,9 +182,7 @@
             border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .setting-row:last-child {
-            border-bottom: none;
-        }
+        .setting-row:last-child { border-bottom: none; }
 
         /* --- Toggle Switch --- */
         .switch {
@@ -198,11 +192,7 @@
             height: 28px;
         }
 
-        .switch input { 
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
+        .switch input { opacity: 0; width: 0; height: 0; }
 
         .slider {
             position: absolute;
@@ -225,194 +215,13 @@
             border-radius: 50%;
         }
 
-        input:checked + .slider {
-            background-color: var(--primary-blue);
-        }
+        input:checked + .slider { background-color: var(--primary-blue); }
+        input:checked + .slider:before { transform: translateX(22px); }
 
-        input:checked + .slider:before {
-            transform: translateX(22px);
-        }
-
-        /* --- Buttons --- */
-        .danger-btn {
-            background: transparent;
-            color: var(--danger);
-            border: 2px solid var(--danger);
-            padding: 12px 25px;
-            font-size: 1rem;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Righteous', cursive;
-            letter-spacing: 0.5px;
+        /* --- Form Styles --- */
+        .feedback-input, .feedback-box {
             width: 100%;
-            margin-top: 10px;
-        }
-
-        .danger-btn:hover {
-            background: var(--danger);
-            color: white;
-            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.2);
-        }
-
-        .status-msg {
-            color: #2ecc71;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-weight: bold;
-            margin-top: 15px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-    </style>
-</head>
-<body>
-
-    <nav class="main-nav">
-        <a href="index.html" id="navHome">Home</a>
-        <a href="NewLayout.html" id="navJournal">Journal Timer</a>
-        <a href="breathe.html" id="navBreathe">Breathe</a>
-        <a href="tracker.html" id="navTracker">Tracker</a>
-        <a href="archive.html" id="navArchive">Archive</a>
-        <a href="settings.html" id="navSettings" class="active">Settings</a>
-    </nav>
-
-    <div class="header-bar">
-        <select class="lang-select" id="langSelect" onchange="changeLanguage()">
-            <option value="en">English</option>
-            <option value="hi">हिंदी (Hindi)</option>
-            <option value="ta">தமிழ் (Tamil)</option>
-        </select>
-    </div>
-
-    <div class="container">
-        <img src="9M.JPG" alt="Settings Header" class="settings-banner">
-
-        <h1 id="ui-title">Preferences</h1>
-        <p class="desc" id="ui-desc">Customize your wellness experience.</p>
-
-        <div class="settings-section">
-            <h3 class="section-title" id="secGeneral">General Options</h3>
-            
-            <div class="setting-row">
-                <span id="optAudio">Play background audio by default</span>
-                <label class="switch">
-                    <input type="checkbox" id="audioToggle" checked onchange="saveSettings()">
-                    <span class="slider"></span>
-                </label>
-            </div>
-            
-            <div class="setting-row">
-                <span id="optAnim">Enable smooth animations</span>
-                <label class="switch">
-                    <input type="checkbox" id="animToggle" checked onchange="saveSettings()">
-                    <span class="slider"></span>
-                </label>
-            </div>
-        </div>
-
-        <img src="8M.JPG" alt="Data Management Header" class="settings-banner-small">
-
-        <div class="settings-section danger-zone">
-            <h3 class="section-title danger-title" id="secData">Data Management</h3>
-            <p style="font-family: 'Segoe UI', sans-serif; font-size: 0.95rem; color: #666; margin-top: 0;" id="dataDesc">
-                Your journal entries and tracker history are saved locally on this device.
-            </p>
-            <button class="danger-btn" id="wipeBtn" onclick="wipeAllData()">Erase All Local Data</button>
-        </div>
-
-        <div class="status-msg" id="statusMsg">Settings saved!</div>
-    </div>
-
-    <script>
-        // --- Translation Dictionary ---
-        const i18n = {
-            en: {
-                navHome: "Home", navJournal: "Journal Timer", navBreathe: "Breathe", navTracker: "Tracker", navArchive: "Archive", navSettings: "Settings",
-                title: "Preferences",
-                desc: "Customize your wellness experience.",
-                secGeneral: "General Options",
-                optAudio: "Play background audio by default",
-                optAnim: "Enable smooth animations",
-                secData: "Data Management",
-                dataDesc: "Your journal entries and tracker history are saved locally on this device.",
-                wipeBtn: "Erase All Local Data",
-                savedMsg: "Settings saved!",
-                wipeConfirm: "Are you absolutely sure? This will delete all tracked data and cannot be undone."
-            },
-            hi: {
-                navHome: "मुख्य पृष्ठ", navJournal: "जर्नल टाइमर", navBreathe: "सांस लें", navTracker: "ट्रैकर", navArchive: "संग्रह", navSettings: "सेटिंग्स",
-                title: "प्राथमिकताएं",
-                desc: "अपने कल्याण अनुभव को अनुकूलित करें।",
-                secGeneral: "सामान्य विकल्प",
-                optAudio: "डिफ़ॉल्ट रूप से पृष्ठभूमि ऑडियो चलाएं",
-                optAnim: "सुचारू एनिमेशन सक्षम करें",
-                secData: "डेटा प्रबंधन",
-                dataDesc: "आपकी जर्नल प्रविष्टियां और ट्रैकर इतिहास इस डिवाइस पर स्थानीय रूप से सहेजे जाते हैं।",
-                wipeBtn: "सभी स्थानीय डेटा मिटाएं",
-                savedMsg: "सेटिंग्स सहेजी गईं!",
-                wipeConfirm: "क्या आप बिल्कुल निश्चित हैं? यह सभी ट्रैक किए गए डेटा को हटा देगा और इसे पूर्ववत नहीं किया जा सकता है।"
-            },
-            ta: {
-                navHome: "முகப்பு", navJournal: "நேரங்காட்டி", navBreathe: "சுவாசி", navTracker: "கண்காணிப்பான்", navArchive: "காப்பகம்", navSettings: "அமைப்புகள்",
-                title: "விருப்பங்கள்",
-                desc: "உங்கள் அனுபவத்தை தனிப்பயனாக்குங்கள்.",
-                secGeneral: "பொதுவான விருப்பங்கள்",
-                optAudio: "பின்னணி ஆடியோவை இயக்கவும்",
-                optAnim: "மென்மையான அனிமேஷன்களை இயக்கு",
-                secData: "தரவு மேலாண்மை",
-                dataDesc: "உங்கள் உள்ளீடுகள் மற்றும் வரலாறு இந்த சாதனத்தில் சேமிக்கப்படுகின்றன.",
-                wipeBtn: "அனைத்து தரவையும் அழி",
-                savedMsg: "அமைப்புகள் சேமிக்கப்பட்டன!",
-                wipeConfirm: "நீங்கள் உறுதியாக இருக்கிறீர்களா? இது அனைத்து தரவையும் நீக்கும்."
-            }
-        };
-
-        let currentLang = 'en';
-
-        function changeLanguage() {
-            currentLang = document.getElementById('langSelect').value;
-            const t = i18n[currentLang];
-
-            // Update Nav Menu
-            document.getElementById('navHome').innerText = t.navHome;
-            document.getElementById('navJournal').innerText = t.navJournal;
-            document.getElementById('navBreathe').innerText = t.navBreathe;
-            document.getElementById('navTracker').innerText = t.navTracker;
-            document.getElementById('navArchive').innerText = t.navArchive;
-            document.getElementById('navSettings').innerText = t.navSettings;
-
-            // Update Page Content
-            document.getElementById('ui-title').innerText = t.title;
-            document.getElementById('ui-desc').innerText = t.desc;
-            document.getElementById('secGeneral').innerText = t.secGeneral;
-            document.getElementById('optAudio').innerText = t.optAudio;
-            document.getElementById('optAnim').innerText = t.optAnim;
-            document.getElementById('secData').innerText = t.secData;
-            document.getElementById('dataDesc').innerText = t.dataDesc;
-            document.getElementById('wipeBtn').innerText = t.wipeBtn;
-            document.getElementById('statusMsg').innerText = t.savedMsg;
-        }
-
-        function saveSettings() {
-            // Flash a saved message when toggles are clicked
-            const statusMsg = document.getElementById('statusMsg');
-            statusMsg.style.opacity = '1';
-            setTimeout(() => {
-                statusMsg.style.opacity = '0';
-            }, 2000);
-        }
-
-        function wipeAllData() {
-            const t = i18n[currentLang];
-            if (confirm(t.wipeConfirm)) {
-                // Clear the tracker data used by the Archive page
-                localStorage.removeItem('wellness_tracker_data');
-                alert("Data erased successfully.");
-            }
-        }
-
-        // Initialize language
-        changeLanguage();
-    </script>
-</body>
-</html>
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius:
