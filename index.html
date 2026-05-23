@@ -12,7 +12,7 @@
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     
     <!-- Premium Wellness Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Quicksand:wght@300;400;500;600&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
         /* Contemporary Earthy Meditation Palette */
@@ -56,7 +56,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-family: 'Quicksand', sans-serif;
             color: var(--text-dark);
             overflow-x: hidden;
             
@@ -166,7 +166,7 @@
             position: relative;
             overflow: hidden;
             font-weight: 500;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .main-nav a::before {
@@ -218,7 +218,7 @@
             border: 2px solid rgba(139, 115, 85, 0.25);
             background: rgba(255, 255, 255, 0.9);
             color: var(--earth-brown);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Quicksand', sans-serif;
             font-size: 0.9rem;
             cursor: pointer;
             outline: none;
@@ -237,19 +237,24 @@
         .container {
             position: relative;
             z-index: 10;
-            max-width: 800px;
+            max-width: 900px;
             width: 90%;
             margin-top: 2vh;
             margin-bottom: 6vh;
             text-align: center;
             background: rgba(250, 247, 243, 0.65);
+            background-image: linear-gradient(rgba(250, 247, 243, 0.85), rgba(250, 247, 243, 0.85)), url('9M.JPG');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(180, 160, 140, 0.6);
             border-radius: 28px;
-            padding: 60px 45px;
+            padding: 80px 45px;
             box-shadow: 0 12px 40px rgba(139, 115, 85, 0.1);
             animation: scaleIn 0.7s ease-out 0.3s both;
+            min-height: 500px;
         }
 
         @keyframes scaleIn {
@@ -263,6 +268,37 @@
             }
         }
 
+        /* Greeting Section with Anime */
+        .greeting-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .anime-meditation {
+            width: 120px;
+            height: 120px;
+            flex-shrink: 0;
+            animation: floatMeditate 4s ease-in-out infinite;
+            filter: drop-shadow(0 4px 15px rgba(139, 115, 85, 0.15));
+        }
+
+        @keyframes floatMeditate {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .greeting-text {
+            flex: 1;
+        }
+
         .greeting {
             font-size: 3.2rem;
             color: var(--earth-brown);
@@ -273,8 +309,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-weight: 600;
-            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
         }
 
         @keyframes fadeInUp {
@@ -289,15 +325,23 @@
         }
 
         .sub-greeting {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             color: var(--text-light);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Quicksand', sans-serif;
             margin-top: 12px;
-            margin-bottom: 45px;
+            margin-bottom: 0;
             animation: fadeInUp 0.8s ease-out 0.5s both;
             font-weight: 400;
             letter-spacing: 0.3px;
-            line-height: 1.5;
+            line-height: 1.6;
+        }
+
+        .user-name {
+            font-size: 1.3rem;
+            color: var(--earth-brown);
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.5px;
         }
 
         /* --- Dashboard Grid --- */
@@ -377,8 +421,8 @@
             transition: var(--transition-smooth);
             position: relative;
             z-index: 2;
-            font-weight: 600;
-            font-family: 'Lora', serif;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .card:hover h3 {
@@ -388,7 +432,7 @@
 
         .card p {
             margin: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Quicksand', sans-serif;
             font-size: 0.95rem;
             color: var(--text-light);
             transition: var(--transition-smooth);
@@ -448,7 +492,7 @@
             background: rgba(212, 197, 185, 0.3);
             padding: 28px;
             border-radius: 16px;
-            font-family: 'Lora', serif;
+            font-family: 'Quicksand', sans-serif;
             font-style: italic;
             color: var(--text-dark);
             font-size: 1.15rem;
@@ -498,6 +542,27 @@
         }
 
         /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .greeting-section {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .anime-meditation {
+                width: 100px;
+                height: 100px;
+            }
+
+            .greeting {
+                font-size: 2.5rem;
+            }
+
+            .container {
+                padding: 50px 25px;
+                min-height: auto;
+            }
+        }
+
         @media (max-width: 600px) {
             .greeting {
                 font-size: 2.2rem;
@@ -539,6 +604,15 @@
                 font-size: 1rem;
                 padding: 22px;
             }
+
+            .greeting-section {
+                flex-direction: column-reverse;
+            }
+
+            .anime-meditation {
+                width: 80px;
+                height: 80px;
+            }
         }
     </style>
 </head>
@@ -577,8 +651,21 @@
     </div>
 
     <div class="container">
-        <h1 class="greeting" id="greetingText">Good Morning.</h1>
-        <p class="sub-greeting" id="subGreeting">Welcome back. Take a deep breath.</p>
+        <div class="greeting-section">
+            <lottie-player id="meditationAnimator" 
+                src="https://lottie.host/d4f4d4e4-0e4d-4e4d-8e4d-8e4d8e4d8e4d/KJsqFqL8zF.json"
+                background="transparent"
+                speed="1"
+                loop
+                autoplay
+                class="anime-meditation">
+            </lottie-player>
+            
+            <div class="greeting-text">
+                <h1 class="greeting" id="greetingText">Good Morning.</h1>
+                <p class="sub-greeting" id="subGreeting">Welcome back<span class="user-name" id="userName"></span></p>
+            </div>
+        </div>
 
         <div class="dashboard-grid">
             <a href="NewLayout.html" class="card card-journal">
@@ -635,23 +722,50 @@
     </script>
 
     <script>
+        // --- Get User Name from Browser/System ---
+        function getUserName() {
+            let userName = '';
+
+            // Try to get from localStorage first (if previously saved)
+            const savedName = localStorage.getItem('userWellnessName');
+            if (savedName) {
+                return savedName;
+            }
+
+            // Try to get from browser's navigator properties
+            if (navigator.userAgentData && navigator.userAgentData.platform) {
+                userName = navigator.userAgentData.platform;
+            }
+
+            // Fallback to session storage or user's default
+            if (!userName || userName === 'Unknown') {
+                // Try to extract from email or other sources
+                userName = localStorage.getItem('userName') || 'Friend';
+            }
+
+            // If still no name, try to get from local user info
+            if (!userName || userName === '') {
+                userName = 'Friend';
+            }
+
+            return userName.charAt(0).toUpperCase() + userName.slice(1);
+        }
+
         // --- Audio Control Setup ---
         const audio = document.getElementById('meditationAudio');
         const audioToggle = document.getElementById('audioToggle');
         const volumeSlider = document.getElementById('volumeSlider');
         let isPlaying = false;
 
-        // Auto-play on page load (muted initially, user must interact)
+        // Auto-play on page load
         function initAudio() {
             audio.volume = volumeSlider.value / 100;
-            // Attempt to autoplay
             const playPromise = audio.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
                     isPlaying = true;
                     updateAudioIcon();
                 }).catch(() => {
-                    // Autoplay failed, wait for user interaction
                     console.log('Autoplay prevented - waiting for user interaction');
                 });
             }
@@ -709,7 +823,7 @@
                 morning: "Good Morning.",
                 afternoon: "Good Afternoon.",
                 evening: "Good Evening.",
-                sub: "Welcome back. Take a deep breath.",
+                sub: "Welcome back",
                 c1Title: "Journal", c1Desc: "15-minute guided reset",
                 c2Title: "Breathe", c2Desc: "Quick calming exercises",
                 c3Title: "Tracker", c3Desc: "Log your energy today",
@@ -720,7 +834,7 @@
                 morning: "सुप्रभात।",
                 afternoon: "शुभ दोपहर।",
                 evening: "शुभ संध्या।",
-                sub: "वापसी पर स्वागत है। एक गहरी सांस लें।",
+                sub: "वापसी पर स्वागत है",
                 c1Title: "जर्नल", c1Desc: "15-मिनट निर्देशित रीसेट",
                 c2Title: "सांस लें", c2Desc: "त्वरित शांत करने वाले व्यायाम",
                 c3Title: "ट्रैकर", c3Desc: "आज अपनी ऊर्जा लॉग करें",
@@ -731,7 +845,7 @@
                 morning: "காலை வணக்கம்.",
                 afternoon: "மதிய வணக்கம்.",
                 evening: "மாலை வணக்கம்.",
-                sub: "நல்வரவு. ஆழமாக மூச்சு விடவும்.",
+                sub: "நல்வரவு",
                 c1Title: "ஜர்னல்", c1Desc: "15 நிமிட வழிகாட்டப்பட்ட தியானம்",
                 c2Title: "சுவாசி", c2Desc: "விரைவான அமைதி பயிற்சிகள்",
                 c3Title: "கண்காணிப்பான்", c3Desc: "உங்கள் ஆற்றலைப் பதிவு செய்யவும்",
@@ -754,7 +868,7 @@
 
             // Update Dashboard Content
             document.getElementById('greetingText').innerText = t[greetingKey];
-            document.getElementById('subGreeting').innerText = t.sub;
+            document.getElementById('subGreeting').innerHTML = t.sub + '<span class="user-name" id="userName">, ' + getUserName() + '</span>';
             
             document.getElementById('card1Title').innerText = t.c1Title;
             document.getElementById('card1Desc').innerText = t.c1Desc;
