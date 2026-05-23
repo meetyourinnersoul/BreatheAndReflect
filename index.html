@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wellness Dashboard</title>
+    
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2/dist/aos.css" rel="stylesheet">
+    
+    <!-- Lottie Player for animations -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
         
@@ -15,6 +22,8 @@
             --primary-blue: #3498db;
             --primary-yellow: #f1c40f;
             --accent: #2980b9;
+            --success-green: #2ecc71;
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         * {
@@ -40,7 +49,7 @@
             background-repeat: no-repeat;
         }
 
-        /* --- Navigation Menu --- */
+        /* --- Navigation Menu Animations --- */
         .main-nav {
             width: 100%;
             background: rgba(255, 255, 255, 0.85);
@@ -55,6 +64,18 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .main-nav a {
@@ -63,13 +84,32 @@
             font-size: 1rem;
             padding: 8px 16px;
             border-radius: 20px;
-            transition: all 0.3s ease;
+            transition: var(--transition-smooth);
             letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-blue);
+            z-index: -1;
+            transition: left 0.3s ease;
+        }
+
+        .main-nav a:hover::before, .main-nav a.active::before {
+            left: 0;
         }
 
         .main-nav a:hover, .main-nav a.active {
-            background: var(--primary-blue);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
         }
 
         .header-bar {
@@ -79,18 +119,37 @@
             justify-content: flex-end;
             margin-top: 20px;
             z-index: 10;
+            animation: fadeInRight 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .lang-select {
             padding: 8px 15px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(52, 152, 219, 0.3);
             background: rgba(255, 255, 255, 0.9);
             color: var(--accent);
             font-family: 'Righteous', cursive;
             font-size: 0.95rem;
             cursor: pointer;
             outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .lang-select:hover, .lang-select:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+            transform: translateY(-2px);
         }
 
         /* --- Dashboard Container --- */
@@ -109,6 +168,18 @@
             border-radius: 24px;
             padding: 50px 40px;
             box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            animation: scaleIn 0.7s ease-out 0.3s both;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .greeting {
@@ -116,6 +187,22 @@
             color: var(--primary-blue);
             margin: 0;
             letter-spacing: 1px;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .sub-greeting {
@@ -124,6 +211,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin-top: 10px;
             margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
         }
 
         /* --- Dashboard Grid --- */
@@ -141,28 +229,67 @@
             padding: 30px 20px;
             text-decoration: none;
             color: var(--text-dark);
-            transition: all 0.3s ease;
+            transition: var(--transition-smooth);
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             align-items: center;
             border-bottom: 5px solid transparent;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .card:nth-child(1) {
+            animation-delay: 0.6s;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.7s;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 0.8s;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+            z-index: 1;
+        }
+
+        .card:hover::before {
+            left: 100%;
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.02);
             background: white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-bottom-width: 6px;
         }
 
         .card-journal { border-bottom-color: var(--primary-blue); }
-        .card-breathe { border-bottom-color: #2ecc71; }
+        .card-breathe { border-bottom-color: var(--success-green); }
         .card-tracker { border-bottom-color: var(--primary-yellow); }
 
         .card h3 {
             margin: 0 0 10px 0;
             font-size: 1.5rem;
             color: var(--accent);
+            transition: var(--transition-smooth);
+            position: relative;
+            z-index: 2;
+        }
+
+        .card:hover h3 {
+            transform: scale(1.05);
         }
 
         .card p {
@@ -170,6 +297,52 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-size: 0.95rem;
             color: #666;
+            transition: var(--transition-smooth);
+            position: relative;
+            z-index: 2;
+        }
+
+        .card:hover p {
+            color: #333;
+            transform: translateY(2px);
+        }
+
+        /* Card Icon Container */
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            transition: var(--transition-smooth);
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-journal .card-icon {
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--primary-blue);
+        }
+
+        .card-breathe .card-icon {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--success-green);
+        }
+
+        .card-tracker .card-icon {
+            background: rgba(241, 196, 15, 0.1);
+            color: var(--primary-yellow);
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .card-icon svg {
+            width: 40px;
+            height: 40px;
         }
 
         /* --- Quote Section --- */
@@ -181,6 +354,49 @@
             font-style: italic;
             color: #444;
             font-size: 1.1rem;
+            animation: fadeInUp 0.8s ease-out 0.9s both;
+            border-left: 4px solid var(--primary-blue);
+            transition: var(--transition-smooth);
+        }
+
+        .quote-box:hover {
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.1);
+            transform: translateX(5px);
+        }
+
+        /* Pulse animation for elements */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .pulse {
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 600px) {
+            .greeting {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+
+            .main-nav {
+                gap: 10px;
+            }
+
+            .main-nav a {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
         }
     </style>
 </head>
@@ -209,16 +425,35 @@
 
         <div class="dashboard-grid">
             <a href="NewLayout.html" class="card card-journal">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                </div>
                 <h3 id="card1Title">Journal</h3>
                 <p id="card1Desc">15-minute guided reset</p>
             </a>
 
             <a href="breathe.html" class="card card-breathe">
+                <div class="card-icon pulse">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4"></path>
+                        <path d="M12 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8"></path>
+                    </svg>
+                </div>
                 <h3 id="card2Title">Breathe</h3>
                 <p id="card2Desc">Quick calming exercises</p>
             </a>
 
             <a href="tracker.html" class="card card-tracker">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <polyline points="19 12 12 19 5 12"></polyline>
+                    </svg>
+                </div>
                 <h3 id="card3Title">Tracker</h3>
                 <p id="card3Desc">Log your energy today</p>
             </a>
@@ -228,6 +463,19 @@
             "You are exactly where you need to be."
         </div>
     </div>
+
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- AOS initialization -->
+    <script>
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out-quad',
+            once: false,
+            mirror: true
+        });
+    </script>
 
     <script>
         // --- Dynamic Greeting Logic ---
@@ -306,6 +554,16 @@
 
         // Initialize language and greeting on load
         changeLanguage();
+
+        // Add some interactive animations on card hover
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                gsap.to(this, { duration: 0.3, y: -10, ease: 'power2.out' });
+            });
+            card.addEventListener('mouseleave', function() {
+                gsap.to(this, { duration: 0.3, y: 0, ease: 'power2.out' });
+            });
+        });
     </script>
 </body>
 </html>
