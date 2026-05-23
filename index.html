@@ -273,8 +273,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 30px;
+            gap: 25px;
             margin-bottom: 40px;
+            text-align: left;
             position: relative;
         }
 
@@ -296,7 +297,10 @@
         }
 
         .greeting-text {
-            flex: 1;
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .greeting {
@@ -652,8 +656,8 @@
 
     <div class="container">
         <div class="greeting-section">
-            <lottie-player id="meditationAnimator" 
-                src="https://lottie.host/d4f4d4e4-0e4d-4e4d-8e4d-8e4d8e4d8e4d/KJsqFqL8zF.json"
+          <lottie-player id="meditationAnimator" 
+                src="https://assets2.lottiefiles.com/packages/lf20_kq5rio3m.json"
                 background="transparent"
                 speed="1"
                 loop
@@ -723,6 +727,7 @@
 
     <script>
         // --- Get User Name from Browser/System ---
+        /*
         function getUserName() {
             let userName = '';
 
@@ -750,7 +755,22 @@
 
             return userName.charAt(0).toUpperCase() + userName.slice(1);
         }
+        */
+//New function from Gemini
+        function getUserName() {
+            // Check if we already saved a name
+            let userName = localStorage.getItem('userWellnessName');
+            
+            // If no name is saved yet, set the default
+            if (!userName) {
+                userName = 'Sujeeth';
+                localStorage.setItem('userWellnessName', userName);
+            }
+            
+            return userName;
+        }
 
+        
         // --- Audio Control Setup ---
         const audio = document.getElementById('meditationAudio');
         const audioToggle = document.getElementById('audioToggle');
