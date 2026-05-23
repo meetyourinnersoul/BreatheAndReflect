@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Archive</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+        
+        /* Contemporary Palette */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.65); 
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --text-dark: #2c3e50;
+            --primary-blue: #3498db;
+            --primary-yellow: #f1c40f;
+            --accent: #2980b9;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Righteous', cursive;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            
+            /* IMAGE 1: Misty, reflective sun as the main washed background */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('9M.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* --- Navigation Menu --- */
+        .main-nav {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 1rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .main-nav a:hover, .main-nav a.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .header-bar {
+            width: 90%;
+            max-width: 650px;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            z-index: 10;
+        }
+
+        .lang-select {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--accent);
+            font-family: 'Righteous', cursive;
+            font-size: 0.95rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* --- Glassmorphism UI --- */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 650px;
+            width: 90%;
+            margin-top: 2vh;
+            margin-bottom: 6vh;
+            text-align: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+
+        /* IMAGE 2: Bright sun through clouds as the archive banner */
+        .archive-banner {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--accent);
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .desc {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        /* --- History List Styles --- */
+        .history-list {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Scrollbar styling for history list */
+        .history-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .history-list::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+        .history-list::-webkit-scrollbar-thumb {
+            background: rgba(41, 128, 185, 0.4);
+            border-radius: 10px;
+        }
+
+        .history-card {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            text-align: left;
+            border-left: 5px solid var(--primary-blue);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .history-date {
+            font-size: 1.2rem;
+            color: var(--accent);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 5px;
+        }
+
+        .history-details {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            color: #444;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .empty-state {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #666;
+            font-style: italic;
+            padding: 30px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 12px;
+        }
+
+        .clear-btn {
+            background: transparent;
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Righteous', cursive;
+        }
+
+        .clear-btn:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <a href="index.html" id="navHome">Home</a>
+        <a href="NewLayout.html" id="navJournal">Journal Timer</a>
+        <a href="breathe.html" id="navBreathe">Breathe</a>
+        <a href="tracker.html" id="navTracker">Tracker</a>
+        <a href="archive.html" id="navArchive" class="active">Archive</a>
+        <a href="settings.html" id="navSettings">Settings</a>
+    </nav>
+
+    <div class="header-bar">
+        <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <img src="6M.jpg" alt="Look Forward" class="archive-banner">
+
+        <h1 id="ui-title">Your Archive</h1>
+        <p class="desc" id="ui-desc">Look back at your journey.</p>
+
+        <div class="history-list" id="historyList">
+            </div>
+
+        <button class="clear-btn" id="clearBtn" onclick="clearHistory()">Clear History</button>
+    </div>
+
+    <script>
+        // --- Translation Dictionary ---
+        const i18n = {
+            en: {
+                navHome: "Home", navJournal: "Journal Timer", navBreathe: "Breathe", navTracker: "Tracker", navArchive: "Archive", navSettings: "Settings",
+                title: "Your Archive",
+                desc: "Look back at your journey.",
+                emptyMsg: "No entries yet. Go to the Tracker to log your first day!",
+                clearBtn: "Clear History",
+                lblWater: "Water", lblSleep: "Sleep", lblHours: "hrs"
+            },
+            hi: {
+                navHome: "मुख्य पृष्ठ", navJournal: "जर्नल टाइमर", navBreathe: "सांस लें", navTracker: "ट्रैकर", navArchive: "संग्रह", navSettings: "सेटिंग्स",
+                title: "आपका संग्रह",
+                desc: "अपनी यात्रा पर पीछे मुड़कर देखें।",
+                emptyMsg: "अभी तक कोई प्रविष्टि नहीं। अपना पहला दिन लॉग करने के लिए ट्रैकर पर जाएं!",
+                clearBtn: "इतिहास मिटाएं",
+                lblWater: "पानी", lblSleep: "नींद", lblHours: "घंटे"
+            },
+            ta: {
+                navHome: "முகப்பு", navJournal: "நேரங்காட்டி", navBreathe: "சுவாசி", navTracker: "கண்காணிப்பான்", navArchive: "காப்பகம்", navSettings: "அமைப்புகள்",
+                title: "உங்கள் காப்பகம்",
+                desc: "உங்கள் பயணத்தை திரும்பிப் பாருங்கள்.",
+                emptyMsg: "எந்தப் பதிவும் இல்லை. முதல் நாளைப் பதிவு செய்ய கண்காணிப்பானுக்குச் செல்லவும்!",
+                clearBtn: "வரலாற்றை அழி",
+                lblWater: "தண்ணீர்", lblSleep: "தூக்கம்", lblHours: "மணி"
+            }
+        };
+
+        // Smart translation for the moods saved in memory
+        const moodI18n = {
+            'Drained': { en: '😴 Drained', hi: '😴 थका हुआ', ta: '😴 சோர்வு' },
+            'Okay': { en: '😐 Okay', hi: '😐 ठीक', ta: '😐 பரவாயில்லை' },
+            'Peaceful': { en: '😌 Peaceful', hi: '😌 शांत', ta: '😌 அமைதி' },
+            'Energized': { en: '⚡ Energized', hi: '⚡ ऊर्जावान', ta: '⚡ சுறுசுறுப்பு' }
+        };
+
+        let currentLang = 'en';
+
+        function changeLanguage() {
+            currentLang = document.getElementById('langSelect').value;
+            const t = i18n[currentLang];
+
+            // Update Nav Menu
+            document.getElementById('navHome').innerText = t.navHome;
+            document.getElementById('navJournal').innerText = t.navJournal;
+            document.getElementById('navBreathe').innerText = t.navBreathe;
+            document.getElementById('navTracker').innerText = t.navTracker;
+            document.getElementById('navArchive').innerText = t.navArchive;
+            document.getElementById('navSettings').innerText = t.navSettings;
+
+            // Update Page Text
+            document.getElementById('ui-title').innerText = t.title;
+            document.getElementById('ui-desc').innerText = t.desc;
+            document.getElementById('clearBtn').innerText = t.clearBtn;
+
+            // Reload history so the dynamic text translates
+            loadHistory();
+        }
+
+        function loadHistory() {
+            const historyList = document.getElementById('historyList');
+            const historyData = JSON.parse(localStorage.getItem('wellness_tracker_data')) || [];
+            const t = i18n[currentLang];
+
+            historyList.innerHTML = ''; // Clear current display
+
+            if (historyData.length === 0) {
+                historyList.innerHTML = `<div class="empty-state">${t.emptyMsg}</div>`;
+                document.getElementById('clearBtn').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('clearBtn').style.display = 'inline-block';
+
+            historyData.forEach(entry => {
+                // Translate the mood based on the saved English key
+                const translatedMood = moodI18n[entry.mood] ? moodI18n[entry.mood][currentLang] : entry.mood;
+
+                const card = document.createElement('div');
+                card.className = 'history-card';
+                card.innerHTML = `
+                    <div class="history-date">${entry.date}</div>
+                    <div class="history-details">
+                        <span><strong>Mood:</strong> ${translatedMood}</span>
+                    </div>
+                    <div class="history-details">
+                        <span><strong>${t.lblWater}:</strong> ${entry.water}</span>
+                        <span><strong>${t.lblSleep}:</strong> ${entry.sleep} ${t.lblHours}</span>
+                    </div>
+                `;
+                historyList.appendChild(card);
+            });
+        }
+
+        function clearHistory() {
+            if (confirm("Are you sure you want to delete all your tracked entries? This cannot be undone.")) {
+                localStorage.removeItem('wellness_tracker_data');
+                loadHistory(); // Refresh the display
+            }
+        }
+
+        // Initialize on page load
+        changeLanguage();
+    </script>
+</body>
+</html>

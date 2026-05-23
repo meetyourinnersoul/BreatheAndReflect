@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Breathing Room</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+        
+        /* Contemporary Palette */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.65); 
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --text-dark: #2c3e50;
+            --primary-blue: #3498db;
+            --primary-yellow: #f1c40f;
+            --accent: #2980b9;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Righteous', cursive;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            
+            /* Using the calm waterfront view with a 60% white wash */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('8M.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* --- Navigation Menu --- */
+        .main-nav {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 1rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .main-nav a:hover, .main-nav a.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .header-bar {
+            width: 90%;
+            max-width: 650px;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            z-index: 10;
+        }
+
+        .lang-select {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--accent);
+            font-family: 'Righteous', cursive;
+            font-size: 0.95rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* --- Glassmorphism UI --- */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 650px;
+            width: 90%;
+            margin-top: 2vh;
+            margin-bottom: 6vh;
+            text-align: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--accent);
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .desc {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        /* --- Breathing Animation Visuals --- */
+        .breathe-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 40px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* The outer guide circle */
+        .breathe-guide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px dashed rgba(52, 152, 219, 0.3);
+            border-radius: 50%;
+        }
+
+        /* The animated inner circle */
+        .breathe-circle {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #89cff0 0%, #3498db 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(52, 152, 219, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 4s linear; /* Smooth scaling over 4 seconds */
+        }
+
+        .breathe-text {
+            color: white;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: opacity 0.5s ease;
+        }
+
+        /* Specific animation states controlled by JS */
+        .circle-inhale { transform: scale(2.4); }
+        .circle-hold-in { transform: scale(2.4); }
+        .circle-exhale { transform: scale(1); }
+        .circle-hold-out { transform: scale(1); }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Righteous', cursive;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .stop-btn {
+            background: white;
+            color: var(--accent);
+            border: 1px solid white;
+        }
+
+        .stop-btn:hover {
+            background: #fdfbf7;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <a href="index.html" id="navHome">Home</a>
+        <a href="NewLayout.html" id="navJournal">Journal Timer</a>
+        <a href="breathe.html" id="navBreathe" class="active">Breathe</a>
+        <a href="tracker.html" id="navTracker">Tracker</a>
+        <a href="archive.html" id="navArchive">Archive</a>
+        <a href="settings.html" id="navSettings">Settings</a>
+    </nav>
+
+    <div class="header-bar">
+        <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <h1 id="ui-title">Visual Breathing</h1>
+        <p class="desc" id="ui-desc">Follow the circle. Breathe in, hold, breathe out, hold.</p>
+
+        <div class="breathe-container">
+            <div class="breathe-guide"></div>
+            <div class="breathe-circle" id="circle">
+                <span class="breathe-text" id="instruction">Ready</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="actionBtn" onclick="toggleBreathing()">Start Exercise</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Translation Dictionary ---
+        const i18n = {
+            en: {
+                navHome: "Home", navJournal: "Journal Timer", navBreathe: "Breathe", navTracker: "Tracker", navArchive: "Archive", navSettings: "Settings",
+                title: "Visual Breathing",
+                desc: "Follow the circle. Breathe in, hold, breathe out, hold.",
+                startBtn: "Start Exercise",
+                stopBtn: "Stop",
+                inhale: "Inhale...",
+                hold: "Hold...",
+                exhale: "Exhale...",
+                ready: "Ready"
+            },
+            hi: {
+                navHome: "मुख्य पृष्ठ", navJournal: "जर्नल टाइमर", navBreathe: "सांस लें", navTracker: "ट्रैकर", navArchive: "संग्रह", navSettings: "सेटिंग्स",
+                title: "दृश्य श्वास",
+                desc: "घेरे का पालन करें। सांस अंदर लें, रोकें, बाहर छोड़ें, रोकें।",
+                startBtn: "शुरू करें",
+                stopBtn: "रोकें",
+                inhale: "सांस अंदर...",
+                hold: "रोकें...",
+                exhale: "सांस बाहर...",
+                ready: "तैयार"
+            },
+            ta: {
+                navHome: "முகப்பு", navJournal: "நேரங்காட்டி", navBreathe: "சுவாசி", navTracker: "கண்காணிப்பான்", navArchive: "காப்பகம்", navSettings: "அமைப்புகள்",
+                title: "மூச்சுப் பயிற்சி",
+                desc: "வட்டத்தைப் பின்தொடரவும். உள்ளே இழுக்கவும், நிறுத்தவும், வெளியே விடவும்.",
+                startBtn: "தொடங்கு",
+                stopBtn: "நிறுத்து",
+                inhale: "உள்ளே...",
+                hold: "நிறுத்து...",
+                exhale: "வெளியே...",
+                ready: "தயார்"
+            }
+        };
+
+        let currentLang = 'en';
+        let isBreathing = false;
+        let breathInterval;
+        let currentPhase = -1; // -1: Ready, 0: Inhale, 1: Hold, 2: Exhale, 3: Hold
+
+        const circle = document.getElementById('circle');
+        const instructionText = document.getElementById('instruction');
+        const actionBtn = document.getElementById('actionBtn');
+
+        function changeLanguage() {
+            currentLang = document.getElementById('langSelect').value;
+            const t = i18n[currentLang];
+
+            // Update Nav Menu
+            document.getElementById('navHome').innerText = t.navHome;
+            document.getElementById('navJournal').innerText = t.navJournal;
+            document.getElementById('navBreathe').innerText = t.navBreathe;
+            document.getElementById('navTracker').innerText = t.navTracker;
+            document.getElementById('navArchive').innerText = t.navArchive;
+            document.getElementById('navSettings').innerText = t.navSettings;
+
+            // Update Static UI
+            document.getElementById('ui-title').innerText = t.title;
+            document.getElementById('ui-desc').innerText = t.desc;
+
+            // Update Button
+            if (isBreathing) {
+                actionBtn.innerText = t.stopBtn;
+            } else {
+                actionBtn.innerText = t.startBtn;
+            }
+
+            // Update Current Breathing Instruction
+            updateInstructionText();
+        }
+
+        function updateInstructionText() {
+            const t = i18n[currentLang];
+            if (currentPhase === -1) instructionText.innerText = t.ready;
+            else if (currentPhase === 0) instructionText.innerText = t.inhale;
+            else if (currentPhase === 1) instructionText.innerText = t.hold;
+            else if (currentPhase === 2) instructionText.innerText = t.exhale;
+            else if (currentPhase === 3) instructionText.innerText = t.hold;
+        }
+
+        function runBreathCycle() {
+            const t = i18n[currentLang];
+            currentPhase = (currentPhase + 1) % 4;
+            updateInstructionText();
+
+            // Clear all previous animation classes
+            circle.className = 'breathe-circle';
+
+            if (currentPhase === 0) {
+                // Inhale: Scale Up
+                setTimeout(() => circle.classList.add('circle-inhale'), 50);
+            } else if (currentPhase === 1) {
+                // Hold In: Keep Scaled
+                circle.classList.add('circle-hold-in');
+            } else if (currentPhase === 2) {
+                // Exhale: Scale Down
+                setTimeout(() => circle.classList.add('circle-exhale'), 50);
+            } else if (currentPhase === 3) {
+                // Hold Out: Keep Small
+                circle.classList.add('circle-hold-out');
+            }
+        }
+
+        function toggleBreathing() {
+            const t = i18n[currentLang];
+            if (isBreathing) {
+                // Stop the cycle
+                clearInterval(breathInterval);
+                isBreathing = false;
+                currentPhase = -1;
+                circle.className = 'breathe-circle'; // Reset scale
+                updateInstructionText();
+                actionBtn.innerText = t.startBtn;
+                actionBtn.classList.remove('stop-btn');
+            } else {
+                // Start the cycle
+                isBreathing = true;
+                actionBtn.innerText = t.stopBtn;
+                actionBtn.classList.add('stop-btn');
+                
+                // Set initial state immediately, then loop every 4 seconds
+                currentPhase = -1; 
+                runBreathCycle();
+                breathInterval = setInterval(runBreathCycle, 4000);
+            }
+        }
+
+        // Initialize language
+        changeLanguage();
+    </script>
+</body>
+</html>
