@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood & Energy Tracker</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+        
+        /* Contemporary Palette */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.65); 
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --text-dark: #2c3e50;
+            --primary-blue: #3498db;
+            --primary-yellow: #f1c40f;
+            --accent: #2980b9;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Righteous', cursive;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            
+            /* IMAGE 1: Sunlit trees as the main washed background */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url('5M.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* --- Navigation Menu --- */
+        .main-nav {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 1rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .main-nav a:hover, .main-nav a.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .header-bar {
+            width: 90%;
+            max-width: 650px;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            z-index: 10;
+        }
+
+        .lang-select {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--accent);
+            font-family: 'Righteous', cursive;
+            font-size: 0.95rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* --- Glassmorphism UI --- */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 650px;
+            width: 90%;
+            margin-top: 2vh;
+            margin-bottom: 6vh;
+            text-align: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+
+        /* IMAGE 2: The journey pathway as an inspiring banner inside the card */
+        .tracker-banner {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--accent);
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .desc {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        /* --- Tracker Controls --- */
+        .track-section {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            text-align: left;
+            border-left: 5px solid var(--primary-yellow);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .track-section.water-sec { border-left-color: var(--primary-blue); }
+        .track-section.sleep-sec { border-left-color: #9b59b6; }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin: 0 0 15px 0;
+        }
+
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .mood-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .mood-btn:hover {
+            background: #fdfbf7;
+            border-color: var(--primary-yellow);
+        }
+
+        .mood-btn.active {
+            background: var(--primary-yellow);
+            color: white;
+            border-color: var(--primary-yellow);
+            font-weight: bold;
+        }
+
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .circle-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary-blue);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .circle-btn.sleep-btn { background: #9b59b6; }
+        .circle-btn:hover { transform: scale(1.1); }
+
+        .counter-display {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .save-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Righteous', cursive;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .save-btn:hover {
+            background: var(--text-dark);
+            transform: translateY(-2px);
+        }
+
+        .status-msg {
+            color: #2ecc71;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <a href="index.html" id="navHome">Home</a>
+        <a href="NewLayout.html" id="navJournal">Journal Timer</a>
+        <a href="breathe.html" id="navBreathe">Breathe</a>
+        <a href="tracker.html" id="navTracker" class="active">Tracker</a>
+        <a href="archive.html" id="navArchive">Archive</a>
+        <a href="settings.html" id="navSettings">Settings</a>
+    </nav>
+
+    <div class="header-bar">
+        <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <img src="7M.jpg" alt="Daily Journey" class="tracker-banner">
+
+        <h1 id="ui-title">Energy Tracker</h1>
+        <p class="desc" id="ui-desc">Check in with yourself. How are you feeling today?</p>
+
+        <div class="track-section">
+            <h3 class="section-title" id="secMood">Current Mood</h3>
+            <div class="mood-grid">
+                <div class="mood-btn" onclick="setMood('Drained', this)" id="mood1">😴 Drained</div>
+                <div class="mood-btn" onclick="setMood('Okay', this)" id="mood2">😐 Okay</div>
+                <div class="mood-btn" onclick="setMood('Peaceful', this)" id="mood3">😌 Peaceful</div>
+                <div class="mood-btn" onclick="setMood('Energized', this)" id="mood4">⚡ Energized</div>
+            </div>
+        </div>
+
+        <div class="track-section water-sec">
+            <h3 class="section-title" id="secWater">Water (Glasses)</h3>
+            <div class="counter-controls">
+                <button class="circle-btn" onclick="updateWater(-1)">-</button>
+                <div class="counter-display" id="waterCount">0</div>
+                <button class="circle-btn" onclick="updateWater(1)">+</button>
+            </div>
+        </div>
+
+        <div class="track-section sleep-sec">
+            <h3 class="section-title" id="secSleep">Sleep (Hours)</h3>
+            <div class="counter-controls">
+                <button class="circle-btn sleep-btn" onclick="updateSleep(-0.5)">-</button>
+                <div class="counter-display" id="sleepCount">7.0</div>
+                <button class="circle-btn sleep-btn" onclick="updateSleep(0.5)">+</button>
+            </div>
+        </div>
+
+        <button class="save-btn" id="saveBtn" onclick="saveEntry()">Save Entry</button>
+        <div class="status-msg" id="statusMsg">Saved successfully!</div>
+    </div>
+
+    <script>
+        // --- Translation Dictionary ---
+        const i18n = {
+            en: {
+                navHome: "Home", navJournal: "Journal Timer", navBreathe: "Breathe", navTracker: "Tracker", navArchive: "Archive", navSettings: "Settings",
+                title: "Energy Tracker",
+                desc: "Check in with yourself. How are you feeling today?",
+                secMood: "Current Mood", secWater: "Water (Glasses)", secSleep: "Sleep (Hours)",
+                m1: "😴 Drained", m2: "😐 Okay", m3: "😌 Peaceful", m4: "⚡ Energized",
+                saveBtn: "Save Entry",
+                savedMsg: "Entry saved successfully!"
+            },
+            hi: {
+                navHome: "मुख्य पृष्ठ", navJournal: "जर्नल टाइमर", navBreathe: "सांस लें", navTracker: "ट्रैकर", navArchive: "संग्रह", navSettings: "सेटिंग्स",
+                title: "ऊर्जा ट्रैकर",
+                desc: "खुद को जांचें। आज आप कैसा महसूस कर रहे हैं?",
+                secMood: "वर्तमान मनोदशा", secWater: "पानी (गिलास)", secSleep: "नींद (घंटे)",
+                m1: "😴 थका हुआ", m2: "😐 ठीक", m3: "😌 शांत", m4: "⚡ ऊर्जावान",
+                saveBtn: "प्रविष्टि सहेजें",
+                savedMsg: "प्रविष्टि सफलतापूर्वक सहेजी गई!"
+            },
+            ta: {
+                navHome: "முகப்பு", navJournal: "நேரங்காட்டி", navBreathe: "சுவாசி", navTracker: "கண்காணிப்பான்", navArchive: "காப்பகம்", navSettings: "அமைப்புகள்",
+                title: "ஆற்றல் கண்காணிப்பான்",
+                desc: "உங்களை பரிசோதிக்கவும். இன்று நீங்கள் எப்படி உணர்கிறீர்கள்?",
+                secMood: "தற்போதைய மனநிலை", secWater: "தண்ணீர் (குவளைகள்)", secSleep: "தூக்கம் (மணிநேரம்)",
+                m1: "😴 சோர்வு", m2: "😐 பரவாயில்லை", m3: "😌 அமைதி", m4: "⚡ சுறுசுறுப்பு",
+                saveBtn: "பதிவைச் சேமி",
+                savedMsg: "பதிவு வெற்றிகரமாக சேமிக்கப்பட்டது!"
+            }
+        };
+
+        let currentLang = 'en';
+        
+        // App State
+        let selectedMood = "";
+        let waterVal = 0;
+        let sleepVal = 7.0;
+
+        function changeLanguage() {
+            currentLang = document.getElementById('langSelect').value;
+            const t = i18n[currentLang];
+
+            // Nav Menu
+            document.getElementById('navHome').innerText = t.navHome;
+            document.getElementById('navJournal').innerText = t.navJournal;
+            document.getElementById('navBreathe').innerText = t.navBreathe;
+            document.getElementById('navTracker').innerText = t.navTracker;
+            document.getElementById('navArchive').innerText = t.navArchive;
+            document.getElementById('navSettings').innerText = t.navSettings;
+
+            // Page Content
+            document.getElementById('ui-title').innerText = t.title;
+            document.getElementById('ui-desc').innerText = t.desc;
+            document.getElementById('secMood').innerText = t.secMood;
+            document.getElementById('secWater').innerText = t.secWater;
+            document.getElementById('secSleep').innerText = t.secSleep;
+            
+            document.getElementById('mood1').innerText = t.m1;
+            document.getElementById('mood2').innerText = t.m2;
+            document.getElementById('mood3').innerText = t.m3;
+            document.getElementById('mood4').innerText = t.m4;
+            
+            document.getElementById('saveBtn').innerText = t.saveBtn;
+            document.getElementById('statusMsg').innerText = t.savedMsg;
+        }
+
+        function setMood(moodKey, element) {
+            selectedMood = moodKey;
+            
+            // Remove active class from all buttons
+            const btns = document.querySelectorAll('.mood-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            element.classList.add('active');
+        }
+
+        function updateWater(change) {
+            waterVal += change;
+            if (waterVal < 0) waterVal = 0;
+            document.getElementById('waterCount').innerText = waterVal;
+        }
+
+        function updateSleep(change) {
+            sleepVal += change;
+            if (sleepVal < 0) sleepVal = 0;
+            if (sleepVal > 24) sleepVal = 24;
+            // Format to 1 decimal place if it has a half hour
+            document.getElementById('sleepCount').innerText = sleepVal.toFixed(1);
+        }
+
+        function saveEntry() {
+            if (selectedMood === "") {
+                alert("Please select a mood before saving!");
+                return;
+            }
+
+            // Create a record object
+            const record = {
+                date: new Date().toLocaleDateString(),
+                timestamp: new Date().getTime(),
+                mood: selectedMood,
+                water: waterVal,
+                sleep: sleepVal
+            };
+
+            // Pull existing history from browser memory, or start fresh array
+            let history = JSON.parse(localStorage.getItem('wellness_tracker_data')) || [];
+            
+            // Add new record to the start of the array
+            history.unshift(record);
+            
+            // Save it back to memory
+            localStorage.setItem('wellness_tracker_data', JSON.stringify(history));
+
+            // Show success message
+            const statusMsg = document.getElementById('statusMsg');
+            statusMsg.style.opacity = '1';
+            setTimeout(() => {
+                statusMsg.style.opacity = '0';
+            }, 3000);
+        }
+
+        // Initialize language
+        changeLanguage();
+    </script>
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15-Minute Reset & Reflect</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+        
+        /* Contemporary Palette */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.65); 
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --text-dark: #2c3e50;
+            --primary-blue: #3498db;
+            --primary-yellow: #f1c40f;
+            --accent: #2980b9;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Righteous', cursive;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            
+            /* Background wash over your custom png */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* --- New Navigation Menu --- */
+        .main-nav {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 1rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .main-nav a:hover, .main-nav a.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .header-bar {
+            width: 90%;
+            max-width: 650px;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            z-index: 10;
+        }
+
+        .lang-select {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--accent);
+            font-family: 'Righteous', cursive;
+            font-size: 0.95rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* --- Glassmorphism UI --- */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 650px;
+            width: 90%;
+            margin-top: 2vh;
+            margin-bottom: 6vh;
+            text-align: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--accent);
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .timer-display {
+            font-size: 4.5rem;
+            color: var(--accent);
+            margin: 15px 0;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .phase-card {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--primary-yellow);
+            min-height: 120px;
+            transition: all 0.5s ease;
+            text-align: left;
+        }
+
+        .phase-title {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-top: 0;
+            font-weight: 600;
+        }
+
+        .phase-instruction {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Readable font for instructions */
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Readable font for journaling */
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            resize: vertical;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        textarea:focus {
+            outline: none;
+            background: #ffffff;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .controls {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--accent);
+            border: 1px solid white;
+            padding: 12px 25px;
+            font-size: 0.95rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Righteous', cursive;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        button:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+
+        .primary-btn {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+        }
+
+        .primary-btn:hover {
+            background: #2980b9;
+            color: white;
+        }
+
+        .audio-btn {
+            background: #f1c40f;
+            color: #fff;
+            border: none;
+        }
+        
+        .audio-btn:hover {
+            background: #f39c12;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <a href="index.html" id="navHome">Home</a>
+        <a href="NewLayout.html" id="navJournal" class="active">Journal Timer</a>
+        <a href="breathe.html" id="navBreathe">Breathe</a>
+        <a href="tracker.html" id="navTracker">Tracker</a>
+        <a href="archive.html" id="navArchive">Archive</a>
+        <a href="settings.html" id="navSettings">Settings</a>
+    </nav>
+
+    <div class="header-bar">
+        <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <h1 id="ui-title">Breathe & Reflect</h1>
+        
+        <div class="timer-display" id="timer">15:00</div>
+
+        <div class="phase-card" id="phaseCard">
+            <h2 class="phase-title" id="phaseTitle">Ready when you are.</h2>
+            <p class="phase-instruction" id="phaseDesc">Find a quiet space, get comfortable, and click Start to begin your 15-minute reset.</p>
+        </div>
+
+        <textarea id="journalEntry" placeholder="Your journal space. It is safe to be completely honest here..."></textarea>
+
+        <div class="controls">
+            <button class="primary-btn" id="startBtn" onclick="toggleTimer()">Start Workflow</button>
+            <button class="audio-btn" id="audioBtn" onclick="toggleAudioSettings()">Audio: ON 🔊</button>
+            <button id="saveBtn" onclick="downloadJournal()">Save Journal</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Translation Dictionary ---
+        const i18n = {
+            en: {
+                navHome: "Home", navJournal: "Journal Timer", navBreathe: "Breathe", navTracker: "Tracker", navArchive: "Archive", navSettings: "Settings",
+                title: "Breathe & Reflect",
+                readyTitle: "Ready when you are.",
+                readyDesc: "Find a quiet space, get comfortable, and click Start to begin your 15-minute reset.",
+                placeholder: "Your journal space. It is safe to be completely honest here...",
+                btnStart: "Start Workflow", btnResume: "Resume Workflow", btnPause: "Pause",
+                btnAudioOn: "Audio: ON 🔊", btnAudioOff: "Audio: OFF 🔇",
+                btnSave: "Save Journal", btnComplete: "Workflow Complete",
+                meditationTitle: "Phase 1: Grounding Meditation",
+                meditationDesc: "Close your eyes. Drop your shoulders away from your ears. Inhale deeply for 4 seconds, hold for 4, exhale for 6. Let the noise of the day fade away.",
+                dumpTitle: "Phase 2: The Brain Dump",
+                dumpDesc: "Open your eyes. Write down whatever is crowding your mind. Do not censor yourself. Put it all in the text box below to get it out of your head.",
+                intentionTitle: "Phase 3: Intention Setting",
+                intentionDesc: "Take a deep breath. Shift your focus. Write down one thing you are proud of yourself for today, and set one gentle intention for the rest of the day.",
+                doneTitle: "You did it.",
+                doneDesc: "Your 15 minutes are complete. Thank yourself for showing up. You can continue writing, or save your entry below."
+            },
+            hi: {
+                navHome: "मुख्य पृष्ठ", navJournal: "जर्नल टाइमर", navBreathe: "सांस लें", navTracker: "ट्रैकर", navArchive: "संग्रह", navSettings: "सेटिंग्स",
+                title: "सांस लें और विचार करें",
+                readyTitle: "जब आप तैयार हों।",
+                readyDesc: "एक शांत जगह खोजें, आरामदायक हो जाएं, और अपना 15 मिनट का रीसेट शुरू करने के लिए स्टार्ट पर क्लिक करें।",
+                placeholder: "आपका जर्नल स्पेस। यहां पूरी तरह से ईमानदार होना सुरक्षित है...",
+                btnStart: "शुरू करें", btnResume: "फिर से शुरू करें", btnPause: "रोकें",
+                btnAudioOn: "ऑडियो: चालू 🔊", btnAudioOff: "ऑडियो: बंद 🔇",
+                btnSave: "जर्नल सहेजें", btnComplete: "प्रक्रिया पूर्ण",
+                meditationTitle: "चरण 1: ध्यान (Meditation)",
+                meditationDesc: "अपनी आँखें बंद करें। अपने कंधों को आराम दें। 4 सेकंड के लिए गहरी सांस लें, 4 सेकंड रोकें, और 6 सेकंड में छोड़ें। दिन के शोर को दूर होने दें।",
+                dumpTitle: "चरण 2: विचार लिखें (Brain Dump)",
+                dumpDesc: "अपनी आँखें खोलें। जो भी आपके दिमाग में आ रहा है उसे नीचे लिखें। खुद को रोकें नहीं। इसे अपने दिमाग से बाहर निकालें।",
+                intentionTitle: "चरण 3: संकल्प (Intention Setting)",
+                intentionDesc: "गहरी सांस लें। अपना ध्यान बदलें। एक ऐसी बात लिखें जिस पर आपको आज गर्व है, और दिन के लिए एक सकारात्मक संकल्प लें।",
+                doneTitle: "आपने कर दिखाया।",
+                doneDesc: "आपके 15 मिनट पूरे हो गए हैं। समय निकालने के लिए खुद को धन्यवाद दें। आप लिखना जारी रख सकते हैं, या इसे सहेज सकते हैं।"
+            },
+            ta: {
+                navHome: "முகப்பு", navJournal: "நேரங்காட்டி", navBreathe: "சுவாசி", navTracker: "கண்காணிப்பான்", navArchive: "காப்பகம்", navSettings: "அமைப்புகள்",
+                title: "மூச்சு விடுங்கள், சிந்தியுங்கள்",
+                readyTitle: "நீங்கள் தயாரானதும் தொடங்கவும்.",
+                readyDesc: "அமைதியான இடத்தை தேர்வு செய்யவும். உங்கள் 15 நிமிட தியானத்தை தொடங்க Start பொத்தானை அழுத்தவும்.",
+                placeholder: "உங்கள் எண்ணங்களை இங்கே எழுதவும். இது உங்களுக்கான பாதுகாப்பான இடம்...",
+                btnStart: "தொடங்கு", btnResume: "மீண்டும் தொடங்கு", btnPause: "இடைநிறுத்து",
+                btnAudioOn: "ஒலி: ஆன் 🔊", btnAudioOff: "ஒலி: ஆஃப் 🔇",
+                btnSave: "சேமி", btnComplete: "நிறைவடைந்தது",
+                meditationTitle: "கட்டம் 1: தியானம்",
+                meditationDesc: "கண்களை மூடிக்கொள்ளுங்கள். தோள்களை தளர்த்தவும். 4 வினாடிகள் ஆழமாக மூச்சை இழுத்து, 4 வினாடிகள் நிறுத்தி, 6 வினாடிகள் வெளியிடவும்.",
+                dumpTitle: "கட்டம் 2: எண்ணங்களை எழுதுதல்",
+                dumpDesc: "கண்களைத் திறக்கவும். உங்கள் மனதில் உள்ள அனைத்தையும் இங்கே எழுதவும். உங்கள் கவலைகளை வெளியேற்றுங்கள்.",
+                intentionTitle: "கட்டம் 3: நோக்கம் அமைத்தல்",
+                intentionDesc: "ஆழமாக மூச்சு விடவும். இன்று நீங்கள் பெருமைப்படும் ஒரு விஷயத்தை எழுதவும், மற்றும் ஒரு நேர்மறையான எண்ணத்தை அமைக்கவும்.",
+                doneTitle: "நீங்கள் முடித்துவிட்டீர்கள்.",
+                doneDesc: "உங்கள் 15 நிமிடங்கள் முடிந்துவிட்டன. உங்களுக்காக நேரம் ஒதுக்கியதற்கு நன்றி. நீங்கள் தொடர்ந்து எழுதலாம் அல்லது சேமிக்கலாம்."
+            }
+        };
+
+        let currentLang = 'en';
+        let timeLeft = 900; 
+        let timerInterval;
+        let isRunning = false;
+        let audioEnabled = true;
+        let currentPhaseId = 'ready'; 
+
+        // Dynamic Audio Objects
+        const voiceAudio = new Audio();
+        const backgroundMusic = new Audio('Background.mp3'); // Preserved your capitalization
+        backgroundMusic.loop = true; 
+        backgroundMusic.volume = 0.1; 
+        voiceAudio.volume = 1.0;
+
+        const timerDisplay = document.getElementById('timer');
+        const phaseTitle = document.getElementById('phaseTitle');
+        const phaseDesc = document.getElementById('phaseDesc');
+        const startBtn = document.getElementById('startBtn');
+        const audioBtn = document.getElementById('audioBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const uiTitle = document.getElementById('ui-title');
+        const journalEntry = document.getElementById('journalEntry');
+
+        function changeLanguage() {
+            currentLang = document.getElementById('langSelect').value;
+            const t = i18n[currentLang];
+
+            // Update Nav Menu
+            document.getElementById('navHome').innerText = t.navHome;
+            document.getElementById('navJournal').innerText = t.navJournal;
+            document.getElementById('navBreathe').innerText = t.navBreathe;
+            document.getElementById('navTracker').innerText = t.navTracker;
+            document.getElementById('navArchive').innerText = t.navArchive;
+            document.getElementById('navSettings').innerText = t.navSettings;
+
+            // Update UI
+            uiTitle.innerText = t.title;
+            journalEntry.placeholder = t.placeholder;
+            saveBtn.innerText = t.btnSave;
+            audioBtn.innerText = audioEnabled ? t.btnAudioOn : t.btnAudioOff;
+
+            if (!isRunning && timeLeft === 900) {
+                startBtn.innerText = t.btnStart;
+            } else if (!isRunning && timeLeft < 900 && timeLeft > 0) {
+                startBtn.innerText = t.btnResume;
+            } else if (isRunning) {
+                startBtn.innerText = t.btnPause;
+            } else if (timeLeft === 0) {
+                startBtn.innerText = t.btnComplete;
+            }
+
+            if (currentPhaseId === 'ready') {
+                phaseTitle.innerText = t.readyTitle;
+                phaseDesc.innerText = t.readyDesc;
+            } else {
+                phaseTitle.innerText = t[currentPhaseId + 'Title'];
+                phaseDesc.innerText = t[currentPhaseId + 'Desc'];
+            }
+        }
+
+        function playCustomVoice(phaseId) {
+            if (!audioEnabled) return;
+            
+            // Constructs filenames like: Meditation.m4a, Dump_hi.m4a, Intention_ta.m4a
+            let suffix = (currentLang === 'en') ? '' : '_' + currentLang;
+            let capitalizedPhase = phaseId.charAt(0).toUpperCase() + phaseId.slice(1);
+            
+            voiceAudio.src = capitalizedPhase + suffix + '.m4a';
+            voiceAudio.play().catch(e => console.log("Audio file missing:", e));
+        }
+
+        function toggleAudioSettings() {
+            audioEnabled = !audioEnabled;
+            changeLanguage(); 
+            if (audioEnabled && isRunning) {
+                backgroundMusic.play().catch(e => console.log("Audio play blocked:", e));
+            } else if (!audioEnabled) {
+                voiceAudio.pause();
+                backgroundMusic.pause();
+            }
+        }
+
+        function updateUI() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            timerDisplay.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+            if (timeLeft > 600) {
+                setPhase('meditation', "#3498db");
+            } else if (timeLeft === 600) {
+                setPhase('dump', "#f1c40f"); 
+            } else if (timeLeft <= 600 && timeLeft > 300) {
+                setPhase('dump', "#f1c40f");
+            } else if (timeLeft === 300) {
+                setPhase('intention', "#2ecc71"); 
+            } else if (timeLeft <= 300 && timeLeft > 0) {
+                setPhase('intention', "#2ecc71");
+            } else if (timeLeft === 0) {
+                setPhase('done', "#95a5a6");
+                clearInterval(timerInterval);
+                isRunning = false;
+                changeLanguage(); 
+                startBtn.disabled = true;
+                backgroundMusic.pause();
+            }
+        }
+
+        function setPhase(phaseId, color) {
+            const t = i18n[currentLang];
+            if (currentPhaseId !== phaseId) {
+                currentPhaseId = phaseId;
+                phaseTitle.innerText = t[phaseId + 'Title'];
+                phaseDesc.innerText = t[phaseId + 'Desc'];
+                document.getElementById('phaseCard').style.borderLeftColor = color;
+                
+                if (phaseId !== 'done') {
+                    playCustomVoice(phaseId);
+                }
+            }
+        }
+
+        function toggleTimer() {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                backgroundMusic.pause();
+                voiceAudio.pause();
+            } else {
+                if (timeLeft === 900) {
+                    setPhase('meditation', "#3498db");
+                }
+                if (audioEnabled) {
+                    backgroundMusic.play().catch(e => console.log("Audio play blocked:", e));
+                }
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateUI();
+                }, 1000);
+            }
+            isRunning = !isRunning;
+            changeLanguage(); 
+        }
+
+        function downloadJournal() {
+            const text = document.getElementById('journalEntry').value;
+            if (!text) {
+                alert("Your journal is empty!");
+                return;
+            }
+            const date = new Date().toLocaleDateString().replace(/\//g, '-');
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const anchor = document.createElement('a');
+            anchor.download = `Wellness-Journal-${date}.txt`;
+            anchor.href = window.URL.createObjectURL(blob);
+            anchor.click();
+        }
+
+        // Initialize default language
+        changeLanguage();
+    </script>
+</body>
+</html>
