@@ -59,7 +59,7 @@
             background-image: 
                 linear-gradient(135deg, rgba(139, 115, 85, 0.12) 0%, rgba(122, 155, 110, 0.08) 100%),
                 linear-gradient(45deg, rgba(201, 168, 118, 0.15) 0%, rgba(180, 160, 140, 0.1) 100%),
-                url('2M.jpg'); /* Corrected to lowercase .jpg based on earlier fix */
+                url('2M.JPG'); /* Corrected to lowercase .jpg based on earlier fix */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -238,7 +238,7 @@
             margin-bottom: 6vh;
             text-align: center;
             background: rgba(250, 247, 243, 0.65);
-            background-image: linear-gradient(rgba(250, 247, 243, 0.85), rgba(250, 247, 243, 0.85)), url('9M.jpg'); /* Corrected to lowercase .jpg */
+            background-image: linear-gradient(rgba(250, 247, 243, 0.85), rgba(250, 247, 243, 0.85)), url('9M.JPG'); /* Corrected to lowercase .jpg */
             background-size: cover;
             background-position: center;
             background-blend-mode: overlay;
@@ -492,4 +492,345 @@
             transition: var(--transition-smooth);
             font-weight: 400;
             line-height: 1.7;
-            box-shadow: 0 4px 15px rgba(139
+            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.06);
+            letter-spacing: 0.3px;
+        }
+
+        .quote-box:hover {
+            background: rgba(212, 197, 185, 0.5);
+            box-shadow: 0 8px 25px rgba(139, 115, 85, 0.12);
+            transform: translateX(6px);
+        }
+
+        /* Pulse animation for breathing elements */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.75; transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        /* Soft glow effect */
+        @keyframes softGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(139, 115, 85, 0.08); }
+            50% { box-shadow: 0 0 25px rgba(139, 115, 85, 0.12); }
+        }
+
+        .container {
+            animation: scaleIn 0.7s ease-out 0.3s both, softGlow 6s ease-in-out 1.5s infinite;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .greeting-section {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .header-illustration {
+                width: 110px;
+            }
+
+            .greeting { font-size: 2.5rem; }
+
+            .container {
+                padding: 50px 25px;
+                min-height: auto;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .greeting {
+                font-size: 2.2rem;
+                letter-spacing: 0.5px;
+            }
+
+            .container { padding: 35px 22px; }
+
+            .main-nav { gap: 10px; }
+            .main-nav a {
+                font-size: 0.85rem;
+                padding: 6px 14px;
+            }
+
+            .audio-control {
+                bottom: 20px;
+                right: 20px;
+                padding: 10px 12px;
+            }
+
+            .dashboard-grid { gap: 18px; }
+            .card { padding: 25px 18px; }
+            .card h3 { font-size: 1.4rem; }
+            .quote-box {
+                font-size: 1rem;
+                padding: 22px;
+            }
+
+            .greeting-section {
+                flex-direction: column-reverse;
+            }
+
+            .header-illustration {
+                width: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="meditationAudio" loop>
+        <source src="Background.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="audio-control">
+        <svg class="audio-icon" id="audioToggle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a7 7 0 0 1 0 9.9"></path>
+        </svg>
+        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="15">
+    </div>
+
+    <nav class="main-nav">
+        <a href="index.html" id="navHome" class="active">Home</a>
+        <a href="NewLayout.html" id="navJournal">Journal Timer</a>
+        <a href="breathe.html" id="navBreathe">Breathe</a>
+        <a href="tracker.html" id="navTracker">Tracker</a>
+        <a href="archive.html" id="navArchive">Archive</a>
+        <a href="settings.html" id="navSettings">Settings</a>
+    </nav>
+
+    <div class="header-bar">
+        <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+        </select>
+    </div>
+
+    <div class="container">
+        
+        <div class="greeting-section">
+            <img src="Header.jpg" alt="Wellness Journey" class="header-illustration">
+            
+            <div class="greeting-text">
+                <h1 class="greeting" id="greetingText">Good Morning.</h1>
+                <p class="sub-greeting" id="subGreeting">Welcome back<span class="user-name" id="userName"></span></p>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <a href="NewLayout.html" class="card card-journal">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                </div>
+                <h3 id="card1Title">Journal</h3>
+                <p id="card1Desc">15-minute guided reset</p>
+            </a>
+
+            <a href="breathe.html" class="card card-breathe">
+                <div class="card-icon pulse">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4"></path>
+                        <path d="M12 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8"></path>
+                    </svg>
+                </div>
+                <h3 id="card2Title">Breathe</h3>
+                <p id="card2Desc">Quick calming exercises</p>
+            </a>
+
+            <a href="tracker.html" class="card card-tracker">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <polyline points="19 12 12 19 5 12"></polyline>
+                    </svg>
+                </div>
+                <h3 id="card3Title">Tracker</h3>
+                <p id="card3Desc">Log your energy today</p>
+            </a>
+        </div>
+
+        <div class="quote-box" id="quoteBox">
+            "You are exactly where you need to be."
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script>
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out-quad',
+            once: false,
+            mirror: true
+        });
+    </script>
+
+    <script>
+        function getUserName() {
+            // Check if we already saved a name
+            let userName = localStorage.getItem('userWellnessName');
+            
+            // If no name is saved yet, set the default
+            if (!userName) {
+                userName = 'Sujeeth';
+                localStorage.setItem('userWellnessName', userName);
+            }
+            
+            return userName;
+        }
+
+        // --- Audio Control Setup ---
+        const audio = document.getElementById('meditationAudio');
+        const audioToggle = document.getElementById('audioToggle');
+        const volumeSlider = document.getElementById('volumeSlider');
+        let isPlaying = false;
+
+        // Auto-play on page load
+        function initAudio() {
+            audio.volume = volumeSlider.value / 100;
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    isPlaying = true;
+                    updateAudioIcon();
+                }).catch(() => {
+                    console.log('Autoplay prevented - waiting for user interaction');
+                });
+            }
+        }
+
+        // Toggle audio on icon click
+        audioToggle.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+            } else {
+                audio.play();
+                isPlaying = true;
+            }
+            updateAudioIcon();
+        });
+
+        // Update volume
+        volumeSlider.addEventListener('input', (e) => {
+            audio.volume = e.target.value / 100;
+        });
+
+        // Update audio icon based on state
+        function updateAudioIcon() {
+            if (isPlaying) {
+                audioToggle.innerHTML = `<svg class="audio-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M15.54 8.46a7 7 0 0 1 0 9.9"></path>
+                </svg>`;
+            } else {
+                audioToggle.innerHTML = `<svg class="audio-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                    <line x1="23" y1="15" x2="17" y2="9"></line>
+                </svg>`;
+            }
+        }
+
+        // Initialize audio on user interaction
+        document.addEventListener('click', initAudio, { once: true });
+        document.addEventListener('touchstart', initAudio, { once: true });
+
+        // --- Dynamic Greeting Logic ---
+        function getGreetingKey() {
+            const hour = new Date().getHours();
+            if (hour < 12) return 'morning';
+            if (hour < 18) return 'afternoon';
+            return 'evening';
+        }
+
+        // --- Translation Dictionary ---
+        const i18n = {
+            en: {
+                navHome: "Home", navJournal: "Journal Timer", navBreathe: "Breathe", navTracker: "Tracker", navArchive: "Archive", navSettings: "Settings",
+                morning: "Good Morning.",
+                afternoon: "Good Afternoon.",
+                evening: "Good Evening.",
+                sub: "Welcome back",
+                c1Title: "Journal", c1Desc: "15-minute guided reset",
+                c2Title: "Breathe", c2Desc: "Quick calming exercises",
+                c3Title: "Tracker", c3Desc: "Log your energy today",
+                quote: "\"You are exactly where you need to be.\""
+            },
+            hi: {
+                navHome: "मुख्य पृष्ठ", navJournal: "जर्नल टाइमर", navBreathe: "सांस लें", navTracker: "ट्रैकर", navArchive: "संग्रह", navSettings: "सेटिंग्स",
+                morning: "सुप्रभात।",
+                afternoon: "शुभ दोपहर।",
+                evening: "शुभ संध्या।",
+                sub: "वापसी पर स्वागत है",
+                c1Title: "जर्नल", c1Desc: "15-मिनट निर्देशित रीसेट",
+                c2Title: "सांस लें", c2Desc: "त्वरित शांत करने वाले व्यायाम",
+                c3Title: "ट्रैकर", c3Desc: "आज अपनी ऊर्जा लॉग करें",
+                quote: "\"आप बिल्कुल वहीं हैं जहाँ आपको होना चाहिए।\""
+            },
+            ta: {
+                navHome: "முகப்பு", navJournal: "நேரங்காட்டி", navBreathe: "சுவாசி", navTracker: "கண்காணிப்பான்", navArchive: "காப்பகம்", navSettings: "அமைப்புகள்",
+                morning: "காலை வணக்கம்.",
+                afternoon: "மதிய வணக்கம்.",
+                evening: "மாலை வணக்கம்.",
+                sub: "நல்வரவு",
+                c1Title: "ஜர்னல்", c1Desc: "15 நிமிட வழிகாட்டப்பட்ட தியானம்",
+                c2Title: "சுவாசி", c2Desc: "விரைவான அமைதி பயிற்சிகள்",
+                c3Title: "கண்காணிப்பான்", c3Desc: "உங்கள் ஆற்றலைப் பதிவு செய்யவும்",
+                quote: "\"நீங்கள் எங்கு இருக்க வேண்டுமோ அங்குதான் இருக்கிறீர்கள்.\""
+            }
+        };
+
+        function changeLanguage() {
+            const lang = document.getElementById('langSelect').value;
+            const t = i18n[lang];
+            const greetingKey = getGreetingKey();
+
+            // Update Nav Menu
+            document.getElementById('navHome').innerText = t.navHome;
+            document.getElementById('navJournal').innerText = t.navJournal;
+            document.getElementById('navBreathe').innerText = t.navBreathe;
+            document.getElementById('navTracker').innerText = t.navTracker;
+            document.getElementById('navArchive').innerText = t.navArchive;
+            document.getElementById('navSettings').innerText = t.navSettings;
+
+            // Update Dashboard Content
+            document.getElementById('greetingText').innerText = t[greetingKey];
+            document.getElementById('subGreeting').innerHTML = t.sub + '<span class="user-name" id="userName">, ' + getUserName() + '</span>';
+            
+            document.getElementById('card1Title').innerText = t.c1Title;
+            document.getElementById('card1Desc').innerText = t.c1Desc;
+            
+            document.getElementById('card2Title').innerText = t.c2Title;
+            document.getElementById('card2Desc').innerText = t.c2Desc;
+            
+            document.getElementById('card3Title').innerText = t.c3Title;
+            document.getElementById('card3Desc').innerText = t.c3Desc;
+            
+            document.getElementById('quoteBox').innerText = t.quote;
+        }
+
+        // Initialize language and greeting on load
+        changeLanguage();
+
+        // Add some interactive animations on card hover
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                gsap.to(this, { duration: 0.3, y: -12, ease: 'power2.out' });
+            });
+            card.addEventListener('mouseleave', function() {
+                gsap.to(this, { duration: 0.3, y: 0, ease: 'power2.out' });
+            });
+        });
+    </script>
+</body>
+</html>
