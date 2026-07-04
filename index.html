@@ -5,452 +5,321 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Breathe & Reflect - Wellness Dashboard</title>
     
+    <!-- External Animation & Font Libraries -->
     <link href="https://unpkg.com/aos@2/dist/aos.css" rel="stylesheet">
-    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Quicksand:wght@300;400;500;600&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
         /* Contemporary Earthy Meditation Palette */
         :root {
-            --glass-bg: rgba(250, 247, 243, 0.6);
-            --glass-border: rgba(180, 160, 140, 0.5);
-            --text-dark: #3a3a3a;
-            --text-light: #6b6b6b;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(230, 225, 215, 0.5);
+            --text-dark: #6e5d4f;
+            --text-light: #8e8275;
             
-            /* Earthy Tones */
-            --earth-brown: #8b7355;
-            --warm-taupe: #a89968;
-            --sage-earth: #8a9a7b;
-            --clay-red: #b8735d;
-            --bg-gradient: linear-gradient(135deg, #f4efe9 0%, #e5ded4 100%);
+            /* Earthy Palette Accents */
+            --earth-brown: #a08c6e;
+            --sage-earth: #939e85;
+            --clay-red: #be9283;
+            
+            /* Soft Icon Backgrounds */
+            --journal-icon-bg: #f7f3ed;
+            --breathe-icon-bg: #edf2eb;
+            --tracker-icon-bg: #fcf3f0;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Quicksand', sans-serif;
         }
 
         body {
-          /* References your local background image directly */
-            background: linear-gradient(rgba(244, 239, 233, 0.4), rgba(229, 222, 212, 0.4)), 
-                        url('2M.JPG') no-repeat center center fixed;
-            background-size: cover;
+            font-family: 'Quicksand', sans-serif;
             color: var(--text-dark);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
-            padding-bottom: 60px;
-        }
-
-.container {
-            position: relative;
-            z-index: 10;
-            max-width: 900px;
-            width: 90%;
-            margin: 2vh auto 6vh auto; /* Centers the container box on the page */
-            text-align: center;
-            background: rgba(250, 247, 243, 0.65);
             
-            /* Inner card overlay layout */
-            background-image: linear-gradient(rgba(250, 247, 243, 0.85), rgba(250, 247, 243, 0.85)), url('9M.JPG'); 
+            /* Main Page Background Using 9M.JPG */
+            background: linear-gradient(rgba(245, 242, 237, 0.25), rgba(245, 242, 237, 0.25)), 
+                        url('9M.JPG') no-repeat center center fixed;
             background-size: cover;
-            background-position: center;
-            background-blend-mode: overlay;
             
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(180, 160, 140, 0.6);
-            border-radius: 28px;
-            padding: 80px 45px;
-            box-shadow: 0 12px 40px rgba(139, 115, 85, 0.1);
-            min-height: 500px;
-        }
-
-        /* Top Header Utility Control Bar */
-        .header-bar {
-            width: 100%;
-            max-width: 1200px;
-            padding: 20px 40px;
             display: flex;
-            justify-content: flex-end;
+            flex-direction: column;
             align-items: center;
-            z-index: 10;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 40px 20px;
         }
 
-        .lang-select {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: var(--text-dark);
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .lang-select:hover {
-            background: rgba(250, 247, 243, 0.9);
-            border-color: var(--earth-brown);
-        }
-
-        /* Central Brand Glassmorphic Navigation Menu */
-        .main-nav {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            padding: 15px 40px;
-            border-radius: 40px;
-            display: flex;
-            gap: 30px;
-            align-items: center;
-            margin-bottom: 60px;
-            box-shadow: 0 8px 32px 0 rgba(139, 115, 85, 0.15);
-            z-index: 10;
-        }
-
-        .main-nav a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 600;
-            font-size: 0.95rem;
-            padding: 8px 16px;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .main-nav a:hover, .main-nav a.active {
-            background: var(--earth-brown);
-            color: #ffffff;
-        }
-
-        /* Main Screen Container Layout */
-        .container {
+        /* Central Glass Container to emulate the screenshot border look */
+        .main-board-wrapper {
             width: 100%;
-            max-width: 1200px;
-            padding: 0 40px;
+            max-width: 1050px;
+            background: rgba(253, 251, 247, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 32px;
+            box-shadow: 0 20px 50px rgba(110, 93, 79, 0.05);
+            padding: 50px 60px;
             display: flex;
             flex-direction: column;
             gap: 40px;
         }
 
-        /* Hero Greeting Area Grid Layout */
+        /* Horizontal Layout for Hero Section */
         .hero-section {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            align-items: center;
-            gap: 40px;
-            margin-bottom: 20px;
-        }
-
-        .welcome-group h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: var(--text-dark);
-            line-height: 1.1;
-            margin-bottom: 10px;
-        }
-
-        .welcome-group p {
-            font-size: 1.5rem;
-            color: var(--text-light);
-            font-weight: 400;
-        }
-
-        .user-name {
-            font-weight: 600;
-            color: var(--earth-brown);
-        }
-
-        /* Audio Interaction Controller Widget Block */
-        .audio-widget {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            padding: 20px 30px;
-            border-radius: 30px;
             display: flex;
+            flex-direction: row;
             align-items: center;
-            gap: 20px;
-            box-shadow: 0 8px 24px rgba(139, 115, 85, 0.08);
+            text-align: left;
+            gap: 25px;
+            width: 100%;
+            padding: 15px 10px;
         }
 
-        .audio-btn {
-            background: var(--earth-brown);
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        /* White Shadowed Container for the Lottie Animation */
+        .lottie-box-wrapper {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 12px;
+            box-shadow: 0 10px 30px rgba(160, 140, 120, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            color: white;
-            transition: all 0.3s ease;
-            outline: none;
+            width: 150px;
+            height: 150px;
+            flex-shrink: 0;
         }
 
-        .audio-btn:hover {
-            transform: scale(1.05);
-            background: var(--warm-taupe);
+        .lottie-container {
+            width: 100%;
+            height: 100%;
         }
 
-        .audio-icon {
-            width: 22px;
-            height: 22px;
-        }
-
-        .volume-container {
+        .greeting-text-container {
             display: flex;
             flex-direction: column;
             gap: 4px;
         }
 
-        .volume-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .greeting-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 3.2rem;
+            color: #8c7662;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+
+        .greeting-sub {
+            font-size: 1.3rem;
             color: var(--text-light);
-            font-weight: 600;
+            font-weight: 500;
+        }
+        
+        .greeting-sub span {
+            font-weight: 700;
+            color: #8c7662;
         }
 
-        .volume-slider {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 120px;
-            height: 4px;
-            border-radius: 2px;
-            background: rgba(139, 115, 85, 0.3);
-            outline: none;
-            cursor: pointer;
-        }
-
-        .volume-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--earth-brown);
-            transition: all 0.2s ease;
-        }
-
-        .volume-slider::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-        }
-
-        /* Responsive Dashboard 3-Card Grid System Layout */
+        /* Dashboard Navigation Grid */
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            width: 100%;
         }
 
+        /* Exact Aesthetic Cards from the Screenshot */
         .card {
             background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            border-radius: 32px;
-            padding: 40px;
+            border-radius: 24px;
+            padding: 35px 25px;
+            text-decoration: none;
+            color: inherit;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            min-height: 280px;
-            text-decoration: none;
-            color: var(--text-dark);
-            box-shadow: 0 10px 30px rgba(139, 115, 85, 0.05);
-            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+            align-items: center;
+            text-align: center;
+            gap: 16px;
+            transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease;
+            position: relative;
         }
 
+        /* Colored Base Shadow Accent Lines */
+        .card.journal { border-bottom: 5px solid var(--earth-brown); }
+        .card.breathe { border-bottom: 5px solid var(--sage-earth); }
+        .card.tracker { border-bottom: 5px solid var(--clay-red); }
+
         .card:hover {
-            border-color: var(--earth-brown);
-            box-shadow: 0 20px 40px rgba(139, 115, 85, 0.12);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(140, 118, 98, 0.08);
+        }
+
+        /* Custom Aesthetic Square Icon Accents */
+        .icon-box {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+        
+        .card.journal .icon-box { background-color: var(--journal-icon-bg); }
+        .card.breathe .icon-box { background-color: var(--breathe-icon-bg); }
+        .card.tracker .icon-box { background-color: var(--tracker-icon-bg); }
+
+        .icon-box svg {
+            width: 28px;
+            height: 28px;
         }
 
         .card-content h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.8rem;
+            font-family: 'Quicksand', sans-serif;
             font-weight: 700;
-            margin-bottom: 12px;
+            font-size: 1.6rem;
+            color: #7c6857;
+            margin-bottom: 8px;
         }
 
         .card-content p {
             font-size: 1.05rem;
             color: var(--text-light);
-            line-height: 1.5;
+            font-weight: 400;
         }
 
-        /* Unique Color Coding Accents Per Dashboard Component Card */
-        .card.journal h3 { color: var(--earth-brown); }
-        .card.breathe h3 { color: var(--sage-earth); }
-        .card.tracker h3 { color: var(--clay-red); }
-
-        .card-footer {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .arrow-icon {
-            width: 24px;
-            height: 24px;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover .arrow-icon {
-            transform: translateX(6px);
-        }
-
-        /* Typographic Literary Zen Blockquote Row Section */
+        /* Elegant Quote Block Styling */
         .quote-section {
-            margin-top: 40px;
-            text-align: center;
-            padding: 40px;
+            width: 100%;
+            margin-top: 5px;
         }
 
         .quote-box {
             font-family: 'Lora', serif;
+            font-size: 1.2rem;
             font-style: italic;
-            font-size: 1.6rem;
             color: var(--text-light);
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
+            background: #f0eae1;
+            border-left: 5px solid var(--earth-brown);
+            padding: 24px 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
         }
 
-        /* Global Responsiveness Adapter Layer queries */
-        @media (max-width: 992px) {
-            .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
-            .hero-section { grid-template-columns: 1fr; justify-items: start; gap: 20px; }
-        }
-
+        /* Responsive Breakpoints */
         @media (max-width: 768px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-            .main-nav { padding: 15px 25px; gap: 15px; flex-wrap: wrap; justify-content: center; border-radius: 20px; }
-            .welcome-group h1 { font-size: 2.8rem; }
-            .header-bar { padding: 20px; }
+            .main-board-wrapper { padding: 30px 20px; gap: 30px; }
+            .hero-section { flex-direction: column; text-align: center; gap: 15px; }
+            .greeting-title { font-size: 2.4rem; }
+            .greeting-sub { font-size: 1.1rem; }
+            .card { padding: 25px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="header-bar">
-        <select class="lang-select" id="langSelect" onchange="changeLanguage()">
-            <option value="en">English</option>
-            <option value="hi">हिंदी (Hindi)</option>
-            <option value="ta">தமிழ் (Tamil)</option>
-        </select>
-    </div>
-
-    <nav class="main-nav">
-        <a href="index.html" id="navHome" class="active">Home</a>
-        <a href="NewLayout.html" id="navJournal">Journal Timer</a>
-        <a href="breathe.html" id="navBreathe">Breathe</a>
-        <a href="tracker.html" id="navTracker">Tracker</a>
-        <a href="archive.html" id="navArchive">Archive</a>
-        <a href="settings.html" id="navSettings">Settings</a>
+    <!-- Main Aesthetic Wrapper Pane -->
+    <div class="main-board-wrapper">
         
-        <div id="googleBtnContainer" style="display: inline-block; align-self: center; margin-left: 10px;"></div>
-    </nav>
-
-    <div class="container">
-        
-        <section class="hero-section" data-aos="fade-down">
-            <div class="welcome-group">
-                <h1 id="greetingText">Good Morning.</h1>
-                <p id="subGreeting">Welcome back<span class="user-name" id="userName">, Mindful Achiever</span></p>
-            </div>
-            
-		<audio id="meditationAudio" loop>
-    		<source src="Background.mp3" type="audio/mpeg">
-    		Your browser does not support the audio element.
-		</audio>
-            <div class="audio-widget">
-                <button class="audio-btn" id="audioToggle" aria-label="Toggle Meditation Audio">
-                    <svg class="audio-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                        <line x1="23" y1="9" x2="17" y2="15"></line>
-                        <line x1="23" y1="15" x2="17" y2="9"></line>
-                    </svg>
-                </button>
-                <div class="volume-container">
-                    <span class="volume-label">Ambient Sound</span>
-                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="40">
+        <!-- Welcoming Hero Block with Sunrise_3.lottie -->
+        <header class="hero-section" data-aos="fade-down">
+            <div class="lottie-box-wrapper">
+                <div class="lottie-container">
+                    <dotlottie-player 
+                        src="Sunrise_3.lottie" 
+                        background="transparent" 
+                        speed="1" 
+                        style="width: 100%; height: 100%;" 
+                        loop 
+                        autoplay>
+                    </dotlottie-player>
                 </div>
             </div>
-        </section>
+            <div class="greeting-text-container">
+                <h1 class="greeting-title" id="greeting">Good Morning.</h1>
+                <p class="greeting-sub" id="subGreeting">Welcome back, <span id="usernameSlot">Sujeeth</span></p>
+            </div>
+        </header>
 
+        <!-- Features Navigation Grid with Aesthetic Icons -->
         <main class="dashboard-grid">
             
+            <!-- Journal Feature Card -->
             <a href="NewLayout.html" class="card journal" data-aos="fade-up" data-aos-delay="100">
+                <div class="icon-box">
+                    <!-- Custom Styled Journal Pen/Pad SVG -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--earth-brown)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                </div>
                 <div class="card-content">
                     <h3 id="card1Title">Journal</h3>
                     <p id="card1Desc">15-minute guided reset</p>
                 </div>
-                <div class="card-footer">
-                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="var(--earth-brown)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </div>
             </a>
 
+            <!-- Breathe Feature Card -->
             <a href="breathe.html" class="card breathe" data-aos="fade-up" data-aos-delay="200">
+                <div class="icon-box">
+                    <!-- Concentric Circles Meditative Breathing SVG -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--sage-earth)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <circle cx="12" cy="12" r="6"></circle>
+                        <circle cx="12" cy="12" r="2"></circle>
+                    </svg>
+                </div>
                 <div class="card-content">
                     <h3 id="card2Title">Breathe</h3>
                     <p id="card2Desc">Quick calming exercises</p>
                 </div>
-                <div class="card-footer">
-                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="var(--sage-earth)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </div>
             </a>
 
+            <!-- Tracker Feature Card -->
             <a href="tracker.html" class="card tracker" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon-box">
+                    <!-- Calming Energy Inward Arrow SVG -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="var(--clay-red)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <polyline points="19 12 12 19 5 12"></polyline>
+                    </svg>
+                </div>
                 <div class="card-content">
                     <h3 id="card3Title">Tracker</h3>
                     <p id="card3Desc">Log your energy today</p>
                 </div>
-                <div class="card-footer">
-                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="var(--clay-red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </div>
             </a>
+            
         </main>
 
+        <!-- Dynamic Meditation Quote Segment -->
         <section class="quote-section" data-aos="fade-up" data-aos-delay="400">
-            <p class="quote-box" id="quoteBox">"You are exactly where you need to be."</p>
+            <div class="quote-box" id="quoteBox">"You are exactly where you need to be."</div>
         </section>
+        
     </div>
 
+    <!-- Script Resource Links -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://unpkg.com/aos@2/dist/aos.js"></script>
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.1/dist/dotlottie-player.js"></script>
+    
+    <script src="auth.js"></script>
+    <script src="dataStore.js"></script>
+    <script src="components.js"></script>
+    <script src="dashboard.js"></script>
+    
     <script>
-        // Global Initialization Routine for Layout Animations Engine Framework
+        // Init reveal transitions
         AOS.init({
             duration: 1000,
-            easing: 'ease-in-out-quad',
-            once: false,
-            mirror: true
+            once: true,
+            easing: 'ease-out-cubic'
         });
     </script>
-
-    <script src="auth.js"></script>
-
-    <script src="dashboard.js"></script>
 </body>
 </html>
